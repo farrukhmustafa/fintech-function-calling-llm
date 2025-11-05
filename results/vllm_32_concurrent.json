@@ -1,0 +1,19 @@
+{
+  "total_requests": 100,
+  "successful_requests": 100,
+  "failed_requests": 0,
+  "ttft_mean": 0.34481206417083743,
+  "ttft_median": 0.2243555784225464,
+  "ttft_p95": 0.615969443321228,
+  "ttft_p99": 0.6223455452919007,
+  "ttft_min": 0.19995474815368652,
+  "ttft_max": 0.6223921775817871,
+  "latency_mean": 1.9124557590484619,
+  "latency_median": 1.7917159795761108,
+  "latency_p95": 2.2094911098480225,
+  "latency_p99": 2.2111225819587705,
+  "latency_min": 1.6153647899627686,
+  "latency_max": 2.211136817932129,
+  "tokens_per_second_mean": 212.46911175695735,
+  "requests_per_second": 45.225604851318394
+}

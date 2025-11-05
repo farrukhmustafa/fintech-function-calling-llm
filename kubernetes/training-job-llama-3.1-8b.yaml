@@ -1,0 +1,207 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: training-config-llama-3-1-8b
+  namespace: mlflow
+data:
+  axolotl_config.yaml: |
+    # Optimized Axolotl configuration for Llama-3.1-8B-Instruct
+    base_model: meta-llama/Llama-3.1-8B-Instruct
+    model_type: AutoModelForCausalLM
+    tokenizer_type: AutoTokenizer
+    trust_remote_code: true
+    
+    # Dataset
+    datasets:
+      - path: Team-ACE/ToolACE
+        type: chat_template
+        chat_template: chatml
+        field_messages: conversations
+        message_field_role: from
+        message_field_content: value
+    
+    # Training settings
+    sequence_len: 2048
+    sample_packing: true
+    pad_to_sequence_len: true
+    
+    # Optimized QLoRA configuration
+    adapter: qlora
+    lora_r: 128
+    lora_alpha: 256
+    lora_dropout: 0.1
+    lora_target_linear: true
+    
+    # Target ALL linear layers for better coverage
+    lora_target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    
+    # Quantization
+    load_in_4bit: true
+    bnb_4bit_quant_type: nf4
+    bnb_4bit_compute_dtype: bfloat16
+    bnb_4bit_use_double_quant: true
+    
+    # Optimizations
+    flash_attention: true
+    bf16: true
+    tf32: true
+    gradient_checkpointing: true
+    
+    # Optimized Hyperparameters
+    num_epochs: 5
+    micro_batch_size: 1
+    gradient_accumulation_steps: 16
+    learning_rate: 1.5e-4
+    lr_scheduler: cosine
+    warmup_ratio: 0.15
+    weight_decay: 0.05
+    max_grad_norm: 0.5
+    
+    # Optimizer improvements
+    optimizer: adamw_torch_fused
+    adam_beta1: 0.9
+    adam_beta2: 0.999
+    adam_epsilon: 1.0e-8
+    
+    # Evaluation
+    val_set_size: 0.05
+    eval_steps: 50
+    save_steps: 50
+    logging_steps: 5
+    
+    # Early stopping
+    early_stopping_patience: 5
+    
+    # Output
+    output_dir: /mnt/data/outputs/llama-3.1-8b-optimized
+    
+    # MLflow integration
+    use_mlflow: true
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-llama-3-1-8b
+  namespace: mlflow
+  labels:
+    job-type: training
+    method: qlora-optimized
+    model: llama-3-1-8b
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        job: training
+        model: llama-3-1-8b
+    spec:
+      restartPolicy: Never
+      
+      nodeSelector:
+        library-solution: k8s-training
+      
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      
+      containers:
+      - name: training
+        image: pytorch/pytorch:2.5.1-cuda12.1-cudnn9-devel
+        
+        command:
+        - /bin/bash
+        - -c
+        - |
+          set -ex
+          
+          export MLFLOW_TRACKING_URI=http://mlflow-server.mlflow.svc.cluster.local:5000
+          export MLFLOW_EXPERIMENT_NAME=llama-3.1-8b-training
+          export DEBIAN_FRONTEND=noninteractive
+          
+          echo "Installing system dependencies..."
+          apt-get update && apt-get install -y git build-essential
+          
+          echo "Installing Axolotl from PyPI..."
+          pip install packaging setuptools wheel ninja
+          pip install --no-build-isolation 'axolotl[flash-attn,deepspeed]'
+          
+          echo "Installing mlflow..."
+          pip install mlflow
+          
+          mkdir -p /root/.triton/autotune
+          mkdir -p /workspace
+          cd /workspace
+          
+          cp /config/axolotl_config.yaml ./axolotl_config.yaml
+          mkdir -p /mnt/data/outputs
+          
+          echo "Starting Llama-3.1-8B Optimized QLoRA training..."
+          echo "MLflow URI: $MLFLOW_TRACKING_URI"
+          echo "Improvements: Higher rank (128), all linear targets, 5 epochs, cosine scheduler"
+          
+          accelerate launch -m axolotl.cli.train axolotl_config.yaml
+          
+          echo "Llama-3.1-8B training completed!"
+          
+          if [ -d "/mnt/data/outputs/llama-3.1-8b-optimized" ]; then
+            echo "Model saved to /mnt/data/outputs/llama-3.1-8b-optimized"
+            du -sh /mnt/data/outputs/llama-3.1-8b-optimized
+          fi
+        
+        env:
+        - name: MLFLOW_TRACKING_URI
+          value: "http://mlflow-server.mlflow.svc.cluster.local:5000"
+        - name: MLFLOW_EXPERIMENT_NAME
+          value: "llama-3.1-8b-training"
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: huggingface-secret
+              key: token
+              optional: true
+        - name: CUDA_VISIBLE_DEVICES
+          value: "0"
+        
+        resources:
+          requests:
+            nvidia.com/gpu: 1
+            cpu: 8
+            memory: 100Gi
+          limits:
+            nvidia.com/gpu: 1
+            cpu: 16
+            memory: 200Gi
+        
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: data
+          mountPath: /mnt/data
+        - name: workspace
+          mountPath: /workspace
+        - name: huggingface-cache
+          mountPath: /root/.cache/huggingface
+      
+      volumes:
+      - name: config
+        configMap:
+          name: training-config-llama-3-1-8b
+      - name: data
+        hostPath:
+          path: /mnt/data
+          type: DirectoryOrCreate
+      - name: workspace
+        emptyDir: {}
+      - name: huggingface-cache
+        emptyDir: {}

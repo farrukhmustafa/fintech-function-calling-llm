@@ -1,0 +1,291 @@
+---
+# Triton Inference Server Deployment for Production LLM Serving
+# Optimized for Nebius with trained QLoRA model
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: triton
+  labels:
+    name: triton-inference
+
+---
+# ConfigMap for Triton model repository structure
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: triton-config
+  namespace: triton
+data:
+  config.pbtxt: |
+    name: "qwen-function-calling"
+    backend: "vllm"
+    max_batch_size: 32
+    
+    input [
+      {
+        name: "text_input"
+        data_type: TYPE_STRING
+        dims: [ -1 ]
+      },
+      {
+        name: "max_tokens"
+        data_type: TYPE_INT32
+        dims: [ 1 ]
+        optional: true
+      }
+    ]
+    
+    output [
+      {
+        name: "text_output"
+        data_type: TYPE_STRING
+        dims: [ -1 ]
+      }
+    ]
+    
+    instance_group [
+      {
+        count: 1
+        kind: KIND_GPU
+        gpus: [ 0 ]
+      }
+    ]
+    
+    dynamic_batching {
+      preferred_batch_size: [ 8, 16, 32 ]
+      max_queue_delay_microseconds: 100000
+    }
+
+---
+# PVC for model storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: triton-model-repository
+  namespace: triton
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: compute-csi-default-sc
+  resources:
+    requests:
+      storage: 50Gi
+
+---
+# Triton Inference Server Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-inference-server
+  namespace: triton
+  labels:
+    app: triton
+    component: inference-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate  # For GPU workloads
+  selector:
+    matchLabels:
+      app: triton
+  template:
+    metadata:
+      labels:
+        app: triton
+    spec:
+      nodeSelector:
+        library-solution: k8s-training  # GPU nodes
+      
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      
+      initContainers:
+      # Init container to set up model repository structure
+      - name: setup-model-repo
+        image: busybox
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Setting up Triton model repository structure..."
+          mkdir -p /models/qwen-function-calling/1
+          echo "Model repository created at /models/qwen-function-calling/1"
+          echo "Copy your trained model files here"
+        volumeMounts:
+        - name: model-repository
+          mountPath: /models
+      
+      containers:
+      - name: triton
+        image: nvcr.io/nvidia/tritonserver:24.10-vllm-python-py3
+        
+        args:
+        - tritonserver
+        - --model-repository=/models
+        - --model-control-mode=explicit
+        # Don't load model on startup - will be loaded manually after copy
+        - --strict-model-config=false
+        - --log-verbose=1
+        - --http-port=8000
+        - --grpc-port=8001
+        - --metrics-port=8002
+        - --exit-on-error=false
+        - --allow-metrics=true
+        
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        - containerPort: 8001
+          name: grpc
+          protocol: TCP
+        - containerPort: 8002
+          name: metrics
+          protocol: TCP
+        
+        env:
+        - name: CUDA_VISIBLE_DEVICES
+          value: "0"
+        - name: LD_LIBRARY_PATH
+          value: "/usr/local/cuda/lib64:/usr/local/nvidia/lib64"
+        
+        resources:
+          requests:
+            nvidia.com/gpu: 1
+            cpu: 8
+            memory: 64Gi
+          limits:
+            nvidia.com/gpu: 1
+            cpu: 16
+            memory: 128Gi
+        
+        volumeMounts:
+        - name: model-repository
+          mountPath: /models
+        - name: triton-config
+          mountPath: /models/qwen-function-calling/config.pbtxt
+          subPath: config.pbtxt
+        - name: dshm
+          mountPath: /dev/shm
+        
+        livenessProbe:
+          httpGet:
+            path: /v2/health/live
+            port: 8000
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /v2/health/ready
+            port: 8000
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+      
+      volumes:
+      - name: model-repository
+        persistentVolumeClaim:
+          claimName: triton-model-repository
+      - name: triton-config
+        configMap:
+          name: triton-config
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 16Gi
+
+---
+# Triton Service - HTTP and gRPC
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-inference-service
+  namespace: triton
+  labels:
+    app: triton
+spec:
+  type: ClusterIP
+  selector:
+    app: triton
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8000
+    protocol: TCP
+  - name: grpc
+    port: 8001
+    targetPort: 8001
+    protocol: TCP
+  - name: metrics
+    port: 8002
+    targetPort: 8002
+    protocol: TCP
+
+---
+# Horizontal Pod Autoscaler for Triton
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: triton-hpa
+  namespace: triton
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: triton-inference-server
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 120
+
+---
+# ServiceMonitor for Prometheus (if monitoring is enabled)
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-metrics
+  namespace: triton
+  labels:
+    app: triton
+    component: metrics
+spec:
+  type: ClusterIP
+  selector:
+    app: triton
+  ports:
+  - name: metrics
+    port: 8002
+    targetPort: 8002
+    protocol: TCP
+

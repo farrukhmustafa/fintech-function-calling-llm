@@ -1,0 +1,172 @@
+# Terraform
+infra/.terraform/
+infra/.terraform.lock.hcl
+infra/*.tfstate
+infra/*.tfstate.*
+infra/*.tfplan
+infra/crash.log
+infra/crash.*.log
+infra/*.tfvars.json
+infra/override.tf
+infra/override.tf.json
+infra/*_override.tf
+infra/*_override.tf.json
+infra/.terraformrc
+infra/terraform.rc
+
+# Terraform variables (contains sensitive data)
+infra/terraform.tfvars
+
+# Environment files (contains tokens and credentials)
+infra/environment.sh
+.env
+.env.*
+
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Logs
+*.log
+logs/
+*.log.*
+/tmp/
+temp/
+
+# Model files (too large for git)
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.onnx
+*.pb
+
+# Training outputs (large files)
+outputs/
+checkpoints/
+models/
+merged-models/
+
+# Results (may contain large files - be selective)
+results/*.safetensors
+results/*.bin
+results/*.pt
+results/models/
+
+# Data files (too large)
+data/*.bin
+data/*.arrow
+data/cache/
+data/downloads/
+
+# Kubernetes secrets
+kubernetes/*-secret.yaml
+kubernetes/secrets/
+
+# Port-forward and process files
+/tmp/portforward-wrapper.sh
+/tmp/vllm-pf.log
+/tmp/merge-job.yaml
+/tmp/vllm-deployment.yaml
+*.pid
+
+# Benchmark large outputs
+benchmark_results_*.json
+evaluation_*.log
+
+# Archive and backup files
+*.tar.gz
+*.zip
+*.tgz
+*.rar
+*.7z
+backup/
+archives/
+
+# Sensitive files
+*.pem
+*.key
+id_rsa*
+*.crt
+*.csr
+credentials.json
+secrets.yaml
+
+# OS specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor backups
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Node (if any JS tools used)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Documentation drafts (keep final versions)
+docs/archive/
+temp_old_files/
+
+# Keep these result files (small JSON/text files)
+!results/*.json
+!results/*.md
+!results/*.txt
+!results/*.log
+
+# Keep data files that are small and parsed
+!data/bfcl_simple_parsed.json
+!data/bfcl_multiple_parsed.json
+

@@ -1,0 +1,248 @@
+# axolotl_config.yaml
+# Modern training configuration using Axolotl framework
+# This is the LATEST approach for 2024/2025
+
+base_model: Qwen/Qwen2.5-7B-Instruct
+model_type: AutoModelForCausalLM
+tokenizer_type: AutoTokenizer
+trust_remote_code: true
+
+# Dataset configuration
+datasets:
+  - path: Team-ACE/ToolACE
+    type: completion
+    field: text  # Will be formatted by preprocessing
+    
+# Data preprocessing
+chat_template: chatml  # Qwen uses ChatML format
+train_on_inputs: false  # Only train on outputs
+group_by_length: true  # Efficiency optimization
+
+# Sequence length
+sequence_len: 2048
+sample_packing: true  # Pack multiple samples per sequence
+pad_to_sequence_len: true
+
+# LoRA/QLoRA Configuration
+adapter: qlora  # or 'lora', 'dora'
+lora_r: 64  # Rank (higher = more capacity, we use 64 for function calling)
+lora_alpha: 128  # Alpha (typically 2*r)
+lora_dropout: 0.05
+lora_target_linear: true  # Target all linear layers
+lora_fan_in_fan_out: false
+
+# QLoRA-specific (4-bit quantization)
+load_in_4bit: true
+bnb_4bit_quant_type: nf4  # NF4 quantization
+bnb_4bit_compute_dtype: bfloat16
+bnb_4bit_use_double_quant: true  # Double quantization for memory
+
+# Flash Attention 2 (CRITICAL for speed)
+flash_attention: true
+flash_attn_cross_entropy_loss: true  # Fused cross-entropy
+flash_attn_rms_norm: true  # Fused RMS norm
+
+# Training hyperparameters
+num_epochs: 3
+micro_batch_size: 2  # Per GPU
+gradient_accumulation_steps: 8  # Effective batch = 2*8 = 16
+eval_batch_size: 4
+
+# Optimizer (latest best practices)
+optimizer: adamw_bnb_8bit  # 8-bit Adam (memory efficient)
+lr_scheduler: cosine
+learning_rate: 2e-4
+warmup_ratio: 0.1
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Precision
+bf16: true  # BFloat16 (better than FP16 for training)
+fp16: false
+tf32: true  # TensorFloat32 (A100/H100 optimization)
+
+# Gradient checkpointing (memory vs speed tradeoff)
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false  # Better for transformers
+
+# Evaluation
+val_set_size: 0.05
+eval_steps: 100
+save_steps: 100
+logging_steps: 10
+eval_strategy: steps
+
+# Saving
+output_dir: ./outputs/qlora-qwen25-7b
+save_total_limit: 3  # Keep only 3 best checkpoints
+load_best_model_at_end: true
+metric_for_best_model: eval_loss
+
+# MLflow integration
+mlflow_tracking_uri: ${MLFLOW_TRACKING_URI}
+mlflow_experiment_name: fintech-function-calling
+log_model: true
+
+# Weights & Biases integration (optional)
+wandb_project: fintech-llm-training
+wandb_entity: ${WANDB_ENTITY}
+wandb_watch: gradients
+wandb_log_model: checkpoint
+
+# Special tokens
+special_tokens:
+  pad_token: <|endoftext|>
+  eos_token: <|im_end|>
+  
+# Advanced optimizations
+deepspeed: false  # Single GPU, no need for DeepSpeed
+xformers_attention: false  # Use Flash Attention instead
+sample_packing_eff_est: 1.0
+
+# Early stopping
+early_stopping_patience: 3
+
+---
+# dora_config.yaml
+# DoRA (Decomposed LoRA) - Latest technique (2024)
+# Use this for comparison with QLoRA
+
+base_model: Qwen/Qwen2.5-7B-Instruct
+model_type: AutoModelForCausalLM
+tokenizer_type: AutoTokenizer
+trust_remote_code: true
+
+datasets:
+  - path: Team-ACE/ToolACE
+    type: completion
+    field: text
+
+chat_template: chatml
+train_on_inputs: false
+group_by_length: true
+sequence_len: 2048
+sample_packing: true
+
+# DoRA Configuration (NEW!)
+adapter: dora  # Decomposed LoRA
+lora_r: 64
+lora_alpha: 128
+lora_dropout: 0.05
+lora_target_linear: true
+
+# DoRA specific
+use_dora: true  # Enable DoRA decomposition
+
+# Keep same training config as QLoRA
+load_in_4bit: true
+bnb_4bit_quant_type: nf4
+bnb_4bit_compute_dtype: bfloat16
+bnb_4bit_use_double_quant: true
+
+flash_attention: true
+flash_attn_cross_entropy_loss: true
+flash_attn_rms_norm: true
+
+num_epochs: 3
+micro_batch_size: 2
+gradient_accumulation_steps: 8
+eval_batch_size: 4
+
+optimizer: adamw_bnb_8bit
+lr_scheduler: cosine
+learning_rate: 2e-4
+warmup_ratio: 0.1
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+bf16: true
+tf32: true
+gradient_checkpointing: true
+
+val_set_size: 0.05
+eval_steps: 100
+save_steps: 100
+logging_steps: 10
+
+output_dir: ./outputs/dora-qwen25-7b
+save_total_limit: 3
+load_best_model_at_end: true
+
+mlflow_tracking_uri: ${MLFLOW_TRACKING_URI}
+mlflow_experiment_name: fintech-function-calling
+log_model: true
+
+wandb_project: fintech-llm-training
+wandb_watch: gradients
+
+---
+# lora_plus_config.yaml
+# LoRA+ - Different learning rates for A/B matrices
+# Faster convergence
+
+base_model: Qwen/Qwen2.5-7B-Instruct
+model_type: AutoModelForCausalLM
+tokenizer_type: AutoTokenizer
+trust_remote_code: true
+
+datasets:
+  - path: Team-ACE/ToolACE
+    type: completion
+    field: text
+
+chat_template: chatml
+train_on_inputs: false
+group_by_length: true
+sequence_len: 2048
+sample_packing: true
+
+# LoRA+ Configuration
+adapter: lora
+lora_r: 64
+lora_alpha: 128
+lora_dropout: 0.05
+lora_target_linear: true
+
+# LoRA+ specific (different LR for A/B matrices)
+use_rslora: true  # Rank-stabilized LoRA
+loraplus_lr_ratio: 16.0  # B matrix gets 16x higher LR
+
+# No quantization for LoRA+ (uses more memory but faster)
+load_in_4bit: false
+bf16: true
+tf32: true
+
+flash_attention: true
+flash_attn_cross_entropy_loss: true
+flash_attn_rms_norm: true
+
+num_epochs: 3
+micro_batch_size: 1  # Smaller due to no quantization
+gradient_accumulation_steps: 16  # Keep effective batch = 16
+eval_batch_size: 2
+
+optimizer: adamw_torch  # Standard AdamW
+lr_scheduler: cosine
+learning_rate: 2e-4
+warmup_ratio: 0.1
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+gradient_checkpointing: true
+
+val_set_size: 0.05
+eval_steps: 100
+save_steps: 100
+logging_steps: 10
+
+output_dir: ./outputs/loraplus-qwen25-7b
+save_total_limit: 3
+load_best_model_at_end: true
+
+mlflow_tracking_uri: ${MLFLOW_TRACKING_URI}
+mlflow_experiment_name: fintech-function-calling
+log_model: true
+
+wandb_project: fintech-llm-training
+wandb_watch: gradients

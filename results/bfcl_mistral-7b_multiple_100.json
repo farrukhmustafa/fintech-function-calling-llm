@@ -1,0 +1,1774 @@
+{
+  "dataset": "data/bfcl_multiple_parsed.json",
+  "total": 100,
+  "correct": 80,
+  "incorrect": 20,
+  "errors": 0,
+  "details": [
+    {
+      "id": "multiple_0",
+      "question": "Can I find the dimensions and properties of a triangle, if I know its three sides are 5 units, 4 units and 3 units long?",
+      "expected_functions": [
+        "triangle_properties.get",
+        "circle_properties.get"
+      ],
+      "predicted_response": "{\"function\": \"triangle_properties.get\", \"side1\": 5, \"side2\": 4, \"side3\": 3}",
+      "parsed": {
+        "function": "triangle_properties.get",
+        "side1": 5,
+        "side2": 4,
+        "side3": 3
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_1",
+      "question": "Calculate the area of a triangle, given the lengths of its three sides: 3, 4, and 5.",
+      "expected_functions": [
+        "math.triangle_area_heron",
+        "math.circle_area",
+        "math.triangle_area_base_height"
+      ],
+      "predicted_response": "{\"function\": \"math.triangle_area_heron\", \"side1\": 3, \"side2\": 4, \"side3\": 5}",
+      "parsed": {
+        "function": "math.triangle_area_heron",
+        "side1": 3,
+        "side2": 4,
+        "side3": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_2",
+      "question": "What is the capital of Brazil?",
+      "expected_functions": [
+        "country_info.largest_city",
+        "country_info.capital",
+        "country_info.population"
+      ],
+      "predicted_response": "{\"function\": \"country_info.capital\", \"country\": \"Brazil\"}",
+      "parsed": {
+        "function": "country_info.capital",
+        "country": "Brazil"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_3",
+      "question": "Compute the Euclidean distance between two points A(3,4) and B(1,2).",
+      "expected_functions": [
+        "EuclideanDistance.calculate",
+        "angleToXAxis.calculate"
+      ],
+      "predicted_response": "{\"function\": \"EuclideanDistance.calculate\", \"pointA\": [3.0, 4.0], \"pointB\": [1.0, 2.0]}",
+      "parsed": {
+        "function": "EuclideanDistance.calculate",
+        "pointA": [
+          3.0,
+          4.0
+        ],
+        "pointB": [
+          1.0,
+          2.0
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_4",
+      "question": "Can you calculate the displacement of a car moving at an initial speed of 20 m/s and then accelerates at 10 m/s^2 for 5 seconds? (assuming a straight line motion)",
+      "expected_functions": [
+        "kinematics.calculate_displacement",
+        "kinematics.calculate_final_speed"
+      ],
+      "predicted_response": "{\"function\": \"kinematics.calculate_displacement\", \"param1\": 20, \"param2\": 10, \"param3\": 5, \"param4\": 2}",
+      "parsed": {
+        "function": "kinematics.calculate_displacement",
+        "param1": 20,
+        "param2": 10,
+        "param3": 5,
+        "param4": 2
+      },
+      "correct": false,
+      "message": "Missing required params: ['initial_speed', 'acceleration', 'time']"
+    },
+    {
+      "id": "multiple_5",
+      "question": "What is the wind speed and temperature in location given by coordinates 46.603354,1.8883340 on December 13, 2019?",
+      "expected_functions": [
+        "weather.get_by_city_date",
+        "weather.get_forecast_by_coordinates",
+        "weather.get_by_coordinates_date"
+      ],
+      "predicted_response": "{\"function\": \"weather.get_by_coordinates_date\", \"coordinates\": (46.603354, 1.888334), \"date\": \"2019-12-13\"}",
+      "parsed": {},
+      "correct": false,
+      "message": "No valid JSON found"
+    },
+    {
+      "id": "multiple_6",
+      "question": "Calculate the capacitance of a parallel plate capacitor where the area of the plate is 10 square meters, the distance between plates is 0.01 meters and the dielectric constant K is 1.0.",
+      "expected_functions": [
+        "resistance_calculator.calculate",
+        "capacitance_calculator.calculate",
+        "magnetic_field.calculate"
+      ],
+      "predicted_response": "{\"function\": \"capacitance_calculator.calculate\", \"A\": 10, \"d\": 0.01, \"K\": 1.0}",
+      "parsed": {
+        "function": "capacitance_calculator.calculate",
+        "A": 10,
+        "d": 0.01,
+        "K": 1.0
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_7",
+      "question": "How to assess the population growth in deer and their impact on woodland in Washington state over the past decade?",
+      "expected_functions": [
+        "wildlife_population.assess_growth",
+        "ecological_impact.analyze"
+      ],
+      "predicted_response": "{\"function\": \"wildlife_population.assess_growth\", \"param1\": \"deer\", \"param2\": \"Washington state\", \"param3\": 10}\n{\"function\": \"ecological_impact.analyze\", \"param1\": \"deer\", \"param2\": \"woodland\", \"param3\": \"Washington state\", \"param4\": 10}",
+      "parsed": {
+        "function": "wildlife_population.assess_growth",
+        "param1": "deer",
+        "param2": "Washington state",
+        "param3": 10
+      },
+      "correct": false,
+      "message": "Missing required params: ['species', 'location', 'duration']"
+    },
+    {
+      "id": "multiple_8",
+      "question": "Find a 3 bedroom villa for sale within $300,000 to $400,000 budget in San Diego.",
+      "expected_functions": [
+        "property_valuation.get",
+        "realestate.find_properties"
+      ],
+      "predicted_response": "{\"function\": \"realestate.find_properties\", \"location\": \"San Diego\", \"propertyType\": \"villa\", \"bedrooms\": 3, \"budget\": {\"min\": 300000, \"max\": 400000}}]",
+      "parsed": {
+        "min": 300000,
+        "max": 400000
+      },
+      "correct": false,
+      "message": "No function name in response"
+    },
+    {
+      "id": "multiple_9",
+      "question": "Calculate the average grade for student John who has these scores {'math':90, 'science':75, 'history':82, 'music':89} across different subjects.",
+      "expected_functions": [
+        "calculate_standard_deviation",
+        "calculate_average",
+        "highest_grade"
+      ],
+      "predicted_response": "{\"function\": \"calculate_average\", \"param1\": {\"math\": 90, \"science\": 75, \"history\": 82, \"music\": 89}}",
+      "parsed": {
+        "function": "calculate_average",
+        "param1": {
+          "math": 90,
+          "science": 75,
+          "history": 82,
+          "music": 89
+        }
+      },
+      "correct": false,
+      "message": "Missing required params: ['gradeDict']"
+    },
+    {
+      "id": "multiple_10",
+      "question": "I need to delete some columns from my employees database on personal_data table. I want to remove their email addresses and social security numbers to respect privacy.",
+      "expected_functions": [
+        "database.modify_columns",
+        "database.create_backup"
+      ],
+      "predicted_response": "{\"function\": \"database.modify_columns\", \"db_name\": \"employees\", \"table\": \"personal_data\", \"operation\": \"delete\", \"columns\": [\"email\", \"social_security_number\"]}",
+      "parsed": {
+        "function": "database.modify_columns",
+        "db_name": "employees",
+        "table": "personal_data",
+        "operation": "delete",
+        "columns": [
+          "email",
+          "social_security_number"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_11",
+      "question": "Calculate the roots of a quadratic equation with coefficients 5, 20, and -25",
+      "expected_functions": [
+        "math_roots.quadratic",
+        "math.roots.cubic",
+        "math.roots.polynomial"
+      ],
+      "predicted_response": "{\"function\": \"math_roots.quadratic\", \"param1\": 5, \"param2\": 20, \"param3\": -25}",
+      "parsed": {
+        "function": "math_roots.quadratic",
+        "param1": 5,
+        "param2": 20,
+        "param3": -25
+      },
+      "correct": false,
+      "message": "Missing required params: ['a', 'b', 'c']"
+    },
+    {
+      "id": "multiple_12",
+      "question": "What is the year over year growth rate for company 'Tech Inc' with revenues of $1M in 2019 and $1.2M in 2020?",
+      "expected_functions": [
+        "corporate_finance.calculate_YOY_growth_rate",
+        "financial_ratios.calculate_ROE",
+        "financial_ratios.calculate_ROA"
+      ],
+      "predicted_response": "{\"function\": \"corporate_finance.calculate_YOY_growth_rate\", \"param1\": \"Tech Inc\", \"param2\": 2019, \"param3\": 1000000, \"param4\": 2020, \"param5\": 1200000}",
+      "parsed": {
+        "function": "corporate_finance.calculate_YOY_growth_rate",
+        "param1": "Tech Inc",
+        "param2": 2019,
+        "param3": 1000000,
+        "param4": 2020,
+        "param5": 1200000
+      },
+      "correct": false,
+      "message": "Missing required params: ['company_name', 'year1', 'year1_revenue', 'year2', 'year2_revenue']"
+    },
+    {
+      "id": "multiple_13",
+      "question": "How much revenue would company XYZ generate if we increase the sales units of product A by 10% while keeping the price the same?",
+      "expected_functions": [
+        "corporate_finance.product_price",
+        "corporate_finance.revenue_forecast"
+      ],
+      "predicted_response": "{\"function\": \"corporate_finance.revenue_forecast\", \"company\": \"company XYZ\", \"product\": \"product A\", \"sales_units_increase_percentage\": 10}",
+      "parsed": {
+        "function": "corporate_finance.revenue_forecast",
+        "company": "company XYZ",
+        "product": "product A",
+        "sales_units_increase_percentage": 10
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_14",
+      "question": "Calculate the depreciated value of a property costing $200,000 with an annual depreciation rate of 3% for 5 years.",
+      "expected_functions": [
+        "finance.property_depreciation",
+        "finance.loan_repayment",
+        "finance.inflation_adjustment"
+      ],
+      "predicted_response": "{\"function\": \"finance.property_depreciation\", \"initial_cost\": 200000, \"depreciation_rate\": 3, \"years\": 5}",
+      "parsed": {
+        "function": "finance.property_depreciation",
+        "initial_cost": 200000,
+        "depreciation_rate": 3,
+        "years": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_15",
+      "question": "How much is the potential of the Solar farm at location with coordinates [43.653225, -79.383186] in December, given that it has a total solar panel area of 80000 sq ft?",
+      "expected_functions": [
+        "solarFarm.potential",
+        "windFarm.potential"
+      ],
+      "predicted_response": "{\"function\": \"solarFarm.potential\", \"coordinates\": [43.653225, -79.383186], \"panelArea\": 80000, \"month\": \"December\"}",
+      "parsed": {
+        "function": "solarFarm.potential",
+        "coordinates": [
+          43.653225,
+          -79.383186
+        ],
+        "panelArea": 80000,
+        "month": "December"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_16",
+      "question": "What's the required minimum population size (Ne) for maintaining the genetic diversity of a wild tiger population for the next 100 generations with a probability of 0.95?",
+      "expected_functions": [
+        "species_distribution_modeling.project_range_shift",
+        "population_genetics.calculate_ne",
+        "ecology.calculate_carrying_capacity"
+      ],
+      "predicted_response": "{\"function\": \"population_genetics.calculate_ne\", \"species\": \"wild tiger\", \"generations\": 100, \"probability\": 0.95}",
+      "parsed": {
+        "function": "population_genetics.calculate_ne",
+        "species": "wild tiger",
+        "generations": 100,
+        "probability": 0.95
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_17",
+      "question": "Find the conversion rate from Euro to Dollar at January 1, 2022",
+      "expected_functions": [
+        "currency_conversion.convert",
+        "currency_conversion.get_latest_rate",
+        "currency_conversion.get_rate"
+      ],
+      "predicted_response": "{\"function\": \"currency_conversion.get_rate\", \"from_currency\": \"Euro\", \"to_currency\": \"Dollar\", \"date\": \"2022-01-01\"}",
+      "parsed": {
+        "function": "currency_conversion.get_rate",
+        "from_currency": "Euro",
+        "to_currency": "Dollar",
+        "date": "2022-01-01"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_18",
+      "question": "Who were the main participants and what was the location of the Battle of Stalingrad?",
+      "expected_functions": [
+        "european_history.war_details",
+        "european_history.leader_info",
+        "european_history.battle_details"
+      ],
+      "predicted_response": "{\"function\": \"european_history.battle_details\", \"battle\": \"Battle of Stalingrad\"}",
+      "parsed": {
+        "function": "european_history.battle_details",
+        "battle": "Battle of Stalingrad"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_19",
+      "question": "What are the three great Schism in Christianity history?",
+      "expected_functions": [
+        "religion_history.get_councils",
+        "religion_history.get_reformations",
+        "religion_history.get_schisms"
+      ],
+      "predicted_response": "{\"function\": \"religion_history.get_schisms\", \"religion\": \"Christianity\", \"count\": 3}",
+      "parsed": {
+        "function": "religion_history.get_schisms",
+        "religion": "Christianity",
+        "count": 3
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_20",
+      "question": "What is the price to commission a sculpture made of marble with a size of 3 feet?",
+      "expected_functions": [
+        "sculptor_info.get",
+        "sculpture_price.calculate",
+        "sculpture_availability.check"
+      ],
+      "predicted_response": "{\"function\": \"sculpture_price.calculate\", \"material\": \"marble\", \"size\": 3, \"complexity\": \"medium\"}",
+      "parsed": {
+        "function": "sculpture_price.calculate",
+        "material": "marble",
+        "size": 3,
+        "complexity": "medium"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_21",
+      "question": "I want to generate a sound of 440Hz frequency for 5 seconds. What is the function and how can I use it?",
+      "expected_functions": [
+        "play_sound_wave",
+        "generate_sound_wave"
+      ],
+      "predicted_response": "{\"function\": \"generate_sound_wave\", \"frequency\": 440, \"duration\": 5, \"wave_type\": \"sinusoidal\"}",
+      "parsed": {
+        "function": "generate_sound_wave",
+        "frequency": 440,
+        "duration": 5,
+        "wave_type": "sinusoidal"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_22",
+      "question": "What is the record for the most points scored by a single player in an NBA game?",
+      "expected_functions": [
+        "sports_data.basketball.most_points_single_season",
+        "sports_data.basketball.most_points_career",
+        "sports_data.basketball.most_points_single_game"
+      ],
+      "predicted_response": "{\"function\": \"sports_data.basketball.most_points_single_game\", \"league\": \"NBA\"}",
+      "parsed": {
+        "function": "sports_data.basketball.most_points_single_game",
+        "league": "NBA"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_23",
+      "question": "What are the current stats for basketball player LeBron James including points per game, assists, and minutes per game.",
+      "expected_functions": [
+        "basketball.player_stats.get",
+        "basketball.game_stats.get",
+        "basketball.team_stats.get"
+      ],
+      "predicted_response": "{\"function\": \"basketball.player_stats.get\", \"player_name\": \"LeBron James\", \"stats_fields\": [\"points per game\", \"assists\", \"minutes per game\"]}",
+      "parsed": {
+        "function": "basketball.player_stats.get",
+        "player_name": "LeBron James",
+        "stats_fields": [
+          "points per game",
+          "assists",
+          "minutes per game"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_24",
+      "question": "What is the fastest route from London to Edinburgh for playing a chess championship? Also provide an estimate of the distance.",
+      "expected_functions": [
+        "route_planner.calculate_route",
+        "chess_club_details.find"
+      ],
+      "predicted_response": "{\"function\": \"route_planner.calculate_route\", \"start\": \"London\", \"destination\": \"Edinburgh\", \"method\": \"fastest\"}",
+      "parsed": {
+        "function": "route_planner.calculate_route",
+        "start": "London",
+        "destination": "Edinburgh",
+        "method": "fastest"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_25",
+      "question": "What is the cheapest selling price for the game 'Assassins Creed Valhalla' in the PlayStation Store in the United States?",
+      "expected_functions": [
+        "video_games.store_currency",
+        "video_games.on_sale",
+        "video_games.store_price"
+      ],
+      "predicted_response": "{\"function\": \"video_games.store_price\", \"game_title\": \"Assassins Creed Valhalla\", \"platform\": \"PlayStation\", \"region\": \"United States\"}",
+      "parsed": {
+        "function": "video_games.store_price",
+        "game_title": "Assassins Creed Valhalla",
+        "platform": "PlayStation",
+        "region": "United States"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_26",
+      "question": "Find out the rewards for playing Fortnite on Playstation platform with different missions and trophies",
+      "expected_functions": [
+        "game_scores.get",
+        "game_rewards.get",
+        "game_missions.list"
+      ],
+      "predicted_response": "{\"function\": \"game_rewards.get\", \"game\": \"Fortnite\", \"platform\": \"Playstation\", \"mission\": \"mission1\", \"trophy\": \"trophy1\"}",
+      "parsed": {
+        "function": "game_rewards.get",
+        "game": "Fortnite",
+        "platform": "Playstation",
+        "mission": "mission1",
+        "trophy": "trophy1"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_27",
+      "question": "What is the shortest path from Paris, France to Rome, Italy by using a public transportation?",
+      "expected_functions": [
+        "maps.route_times",
+        "maps.shortest_path"
+      ],
+      "predicted_response": "{\"function\": \"maps.shortest_path\", \"start_location\": \"Paris, France\", \"end_location\": \"Rome, Italy\", \"mode\": \"transit\"}",
+      "parsed": {
+        "function": "maps.shortest_path",
+        "start_location": "Paris, France",
+        "end_location": "Rome, Italy",
+        "mode": "transit"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_28",
+      "question": "What's the root of quadratic equation with coefficients 2, 3 and -4?",
+      "expected_functions": [
+        "solve.quadratic_equation",
+        "convert.rgb_to_hex",
+        "perform.string_reverse"
+      ],
+      "predicted_response": "{\"function\": \"solve.quadratic_equation\", \"param1\": 2, \"param2\": 3, \"param3\": -4}",
+      "parsed": {
+        "function": "solve.quadratic_equation",
+        "param1": 2,
+        "param2": 3,
+        "param3": -4
+      },
+      "correct": false,
+      "message": "Missing required params: ['a', 'b', 'c']"
+    },
+    {
+      "id": "multiple_29",
+      "question": "Find the intersection points of the functions y=3x+2 and y=2x+3.",
+      "expected_functions": [
+        "functions.zero",
+        "functions.intersect"
+      ],
+      "predicted_response": "{\"function\": \"functions.intersect\", \"function1\": \"3x+2\", \"function2\": \"2x+3\"}",
+      "parsed": {
+        "function": "functions.intersect",
+        "function1": "3x+2",
+        "function2": "2x+3"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_30",
+      "question": "What is the area of a rectangle with length 12 meters and width 5 meters?",
+      "expected_functions": [
+        "rectangle.area",
+        "circle.area",
+        "triangle.area"
+      ],
+      "predicted_response": "{\"function\": \"rectangle.area\", \"param1\": 12, \"param2\": 5}",
+      "parsed": {
+        "function": "rectangle.area",
+        "param1": 12,
+        "param2": 5
+      },
+      "correct": false,
+      "message": "Missing required params: ['length', 'width']"
+    },
+    {
+      "id": "multiple_31",
+      "question": "What is the area and perimeter of a rectangle with width of 7 units and length of 10 units?",
+      "expected_functions": [
+        "geometry_square.calculate",
+        "geometry_circle.calculate",
+        "geometry_rectangle.calculate"
+      ],
+      "predicted_response": "{\"function\": \"geometry_rectangle.calculate\", \"width\": 7, \"length\": 10}",
+      "parsed": {
+        "function": "geometry_rectangle.calculate",
+        "width": 7,
+        "length": 10
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_32",
+      "question": "Calculate the volume of a cone with radius 4 and height 7.",
+      "expected_functions": [
+        "geometry.calculate_cone_volume",
+        "physics.calculate_cone_mass"
+      ],
+      "predicted_response": "{\"function\": \"geometry.calculate_cone_volume\", \"param1\": 4, \"param2\": 7}",
+      "parsed": {
+        "function": "geometry.calculate_cone_volume",
+        "param1": 4,
+        "param2": 7
+      },
+      "correct": false,
+      "message": "Missing required params: ['radius', 'height']"
+    },
+    {
+      "id": "multiple_33",
+      "question": "Find the integral of the function f(x) = 3x^2 from 1 to 2.",
+      "expected_functions": [
+        "calculate_derivative",
+        "calculate_integral"
+      ],
+      "predicted_response": "{\"function\": \"calculate_integral\", \"func\": \"3x^2\", \"a\": 1, \"b\": 2}",
+      "parsed": {
+        "function": "calculate_integral",
+        "func": "3x^2",
+        "a": 1,
+        "b": 2
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_34",
+      "question": "Calculate the Least Common Multiple (LCM) of 18 and 12.",
+      "expected_functions": [
+        "math.gcd",
+        "math.sqrt",
+        "math.lcm"
+      ],
+      "predicted_response": "{\"function\": \"math.lcm\", \"num1\": 18, \"num2\": 12}",
+      "parsed": {
+        "function": "math.lcm",
+        "num1": 18,
+        "num2": 12
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_35",
+      "question": "Calculate the greatest common divisor between 128 and 256.",
+      "expected_functions": [
+        "calculate_lcm",
+        "calculate_gcd"
+      ],
+      "predicted_response": "{\"function\": \"calculate_gcd\", \"num1\": 128, \"num2\": 256}",
+      "parsed": {
+        "function": "calculate_gcd",
+        "num1": 128,
+        "num2": 256
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_36",
+      "question": "Find out how fast an object was going if it started from rest and traveled a distance of 20 meters over 4 seconds due to a constant acceleration?",
+      "expected_functions": [
+        "kinematics.calculate_acceleration",
+        "kinematics.calculate_speed_from_rest"
+      ],
+      "predicted_response": "{\"function\": \"kinematics.calculate_speed_from_rest\", \"param1\": 20, \"param2\": 4, \"param3\": 0}",
+      "parsed": {
+        "function": "kinematics.calculate_speed_from_rest",
+        "param1": 20,
+        "param2": 4,
+        "param3": 0
+      },
+      "correct": false,
+      "message": "Missing required params: ['distance', 'time']"
+    },
+    {
+      "id": "multiple_37",
+      "question": "Find the final velocity of an object thrown up at 40 m/s after 6 seconds.",
+      "expected_functions": [
+        "physics.wave_velocity",
+        "kinematics.final_velocity",
+        "kinematics.distance"
+      ],
+      "predicted_response": "{\"function\": \"kinematics.final_velocity\", \"initial_velocity\": 40, \"time\": 6, \"acceleration\": -9.81}",
+      "parsed": {
+        "function": "kinematics.final_velocity",
+        "initial_velocity": 40,
+        "time": 6,
+        "acceleration": -9.81
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_38",
+      "question": "Find a book 'The Alchemist' in the library branches within New York city.",
+      "expected_functions": [
+        "library.reserve_book",
+        "library.search_book"
+      ],
+      "predicted_response": "{\"function\": \"library.search_book\", \"book_name\": \"The Alchemist\", \"city\": \"New York\"}",
+      "parsed": {
+        "function": "library.search_book",
+        "book_name": "The Alchemist",
+        "city": "New York"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_39",
+      "question": "Find a ride from New York to Philadelphia with maximum cost of $50",
+      "expected_functions": [
+        "grocery_delivery.order",
+        "ride_hailing.get_rides"
+      ],
+      "predicted_response": "{\"function\": \"ride_hailing.get_rides\", \"source\": \"New York\", \"destination\": \"Philadelphia\", \"max_cost\": 50}",
+      "parsed": {
+        "function": "ride_hailing.get_rides",
+        "source": "New York",
+        "destination": "Philadelphia",
+        "max_cost": 50
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_40",
+      "question": "Calculate the strength of magnetic field given distance is 8 meters and current is 12 Amperes?",
+      "expected_functions": [
+        "electromagnetism.ampere_law",
+        "electromagnetism.biot_savart_law"
+      ],
+      "predicted_response": "{\"function\": \"electromagnetism.biot_savart_law\", \"current\": 12, \"distance\": 8}",
+      "parsed": {
+        "function": "electromagnetism.biot_savart_law",
+        "current": 12,
+        "distance": 8
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_41",
+      "question": "Calculate the magnetic field at point P using Ampere\u2019s law where current I is 10 Amperes and r is 0.01 meter.",
+      "expected_functions": [
+        "electric_field.calculate",
+        "magnetic_field.calculate",
+        "electric_force.calculate"
+      ],
+      "predicted_response": "{\"function\": \"magnetic_field.calculate\", \"I\": 10, \"r\": 0.01}",
+      "parsed": {
+        "function": "magnetic_field.calculate",
+        "I": 10,
+        "r": 0.01
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_42",
+      "question": "Calculate the final temperature when 2 moles of gas at 300 K are mixed with 3 moles of the same gas at 400 K.",
+      "expected_functions": [
+        "calculate_final_temperature",
+        "calculate_mass"
+      ],
+      "predicted_response": "{\"function\": \"calculate_final_temperature\", \"quantity1\": 2, \"temperature1\": 300, \"quantity2\": 3, \"temperature2\": 400}",
+      "parsed": {
+        "function": "calculate_final_temperature",
+        "quantity1": 2,
+        "temperature1": 300,
+        "quantity2": 3,
+        "temperature2": 400
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_43",
+      "question": "What is the energy produced by 5 mol of glucose (C6H12O6)?",
+      "expected_functions": [
+        "biological.calc_biomass",
+        "biological.calc_energy",
+        "physical.calc_work"
+      ],
+      "predicted_response": "{\"function\": \"biological.calc_energy\", \"mols\": 5, \"substance\": \"C6H12O6\", \"joules_per_mol\": 2800}",
+      "parsed": {
+        "function": "biological.calc_energy",
+        "mols": 5,
+        "substance": "C6H12O6",
+        "joules_per_mol": 2800
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_44",
+      "question": "How much will I weigh on Mars if my weight on Earth is 70 kg?",
+      "expected_functions": [
+        "unit_conversion.convert",
+        "currency_conversion",
+        "calculate.weight_in_space"
+      ],
+      "predicted_response": "{\"function\": \"calculate.weight_in_space\", \"weight_earth_kg\": 70, \"planet\": \"Mars\"}",
+      "parsed": {
+        "function": "calculate.weight_in_space",
+        "weight_earth_kg": 70,
+        "planet": "Mars"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_45",
+      "question": "Calculate how many years ago was the Ice age?",
+      "expected_functions": [
+        "geology.get_era",
+        "history.get_event_date"
+      ],
+      "predicted_response": "{\"function\": \"geology.get_era\", \"param1\": \"Ice age\", \"param2\": true}",
+      "parsed": {
+        "function": "geology.get_era",
+        "param1": "Ice age",
+        "param2": true
+      },
+      "correct": false,
+      "message": "Missing required params: ['era_name']"
+    },
+    {
+      "id": "multiple_46",
+      "question": "Sort this list of names in ascending order: ['Sam', 'Alice', 'Jack']",
+      "expected_functions": [
+        "filter_list",
+        "sum_elements",
+        "sort_list"
+      ],
+      "predicted_response": "{\"function\": \"sort_list\", \"elements\": [\"Sam\", \"Alice\", \"Jack\"], \"order\": \"asc\"}",
+      "parsed": {
+        "function": "sort_list",
+        "elements": [
+          "Sam",
+          "Alice",
+          "Jack"
+        ],
+        "order": "asc"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_47",
+      "question": "Calculate the cosine similarity between vector A [3, 2, 1] and vector B [1, 2, 3].",
+      "expected_functions": [
+        "cosine_similarity.calculate",
+        "correlation.calculate"
+      ],
+      "predicted_response": "{\"function\": \"cosine_similarity.calculate\", \"vector1\": [3, 2, 1], \"vector2\": [1, 2, 3]}",
+      "parsed": {
+        "function": "cosine_similarity.calculate",
+        "vector1": [
+          3,
+          2,
+          1
+        ],
+        "vector2": [
+          1,
+          2,
+          3
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_48",
+      "question": "Find me a pet-friendly library with facilities for disabled people in New York City.",
+      "expected_functions": [
+        "store.find_nearby",
+        "library.find_nearby"
+      ],
+      "predicted_response": "{\"function\": \"library.find_nearby\", \"location\": \"New York City\", \"preferences\": [\"pet-friendly\", \"disabled access\"]}",
+      "parsed": {
+        "function": "library.find_nearby",
+        "location": "New York City",
+        "preferences": [
+          "pet-friendly",
+          "disabled access"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_49",
+      "question": "Calculate the compound interest for an amount of 1500 for a duration of 2 years with an annual interest rate of 2.5%.",
+      "expected_functions": [
+        "calc_Compound_Interest",
+        "future_value",
+        "calc_Simple_Interest"
+      ],
+      "predicted_response": "{\"function\": \"calc_Compound_Interest\", \"principle_amount\": 1500, \"duration\": 2, \"annual_rate\": 0.025, \"compound_freq\": 1}",
+      "parsed": {
+        "function": "calc_Compound_Interest",
+        "principle_amount": 1500,
+        "duration": 2,
+        "annual_rate": 0.025,
+        "compound_freq": 1
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_50",
+      "question": "Predict the house prices for the next month in New York.",
+      "expected_functions": [
+        "house_price_forecast",
+        "weather_forecast",
+        "stock_market_forecast"
+      ],
+      "predicted_response": "{\"function\": \"house_price_forecast\", \"location\": \"New York\", \"months\": 1}",
+      "parsed": {
+        "function": "house_price_forecast",
+        "location": "New York",
+        "months": 1
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_51",
+      "question": "Calculate the probability of rolling a sum of 7 on a roll of two dice.",
+      "expected_functions": [
+        "dice_roll_probability",
+        "flip_coin_probability",
+        "shuffle_card_probability"
+      ],
+      "predicted_response": "{\"function\": \"dice_roll_probability\", \"param1\": 7, \"param2\": 2}",
+      "parsed": {
+        "function": "dice_roll_probability",
+        "param1": 7,
+        "param2": 2
+      },
+      "correct": false,
+      "message": "Missing required params: ['desired_sum', 'sides_per_die']"
+    },
+    {
+      "id": "multiple_52",
+      "question": "I have 100 euro. How much is it in USD?",
+      "expected_functions": [
+        "unit_conversion",
+        "currency_conversion"
+      ],
+      "predicted_response": "{\"function\": \"currency_conversion\", \"amount\": 100, \"from_currency\": \"EUR\", \"to_currency\": \"USD\"}",
+      "parsed": {
+        "function": "currency_conversion",
+        "amount": 100,
+        "from_currency": "EUR",
+        "to_currency": "USD"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_53",
+      "question": "Predict the house prices for next 5 years based on interest rates and unemployment rates.",
+      "expected_functions": [
+        "linear_regression",
+        "random_forest_regression"
+      ],
+      "predicted_response": "{\"function\": \"random_forest_regression\", \"independent_var\": [\"interest rates\", \"unemployment rates\"], \"dependent_var\": \"house prices\", \"n_estimators\": 100, \"forecast_period\": 5}",
+      "parsed": {
+        "function": "random_forest_regression",
+        "independent_var": [
+          "interest rates",
+          "unemployment rates"
+        ],
+        "dependent_var": "house prices",
+        "n_estimators": 100,
+        "forecast_period": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_54",
+      "question": "Find out the historical dividend payments of Apple Inc for last five years.",
+      "expected_functions": [
+        "corporate_finance.dividend_data",
+        "stock_market_data"
+      ],
+      "predicted_response": "{\"function\": \"corporate_finance.dividend_data\", \"param1\": \"Apple Inc\", \"param2\": 5, \"param3\": \"annually\"}\n\nThe function call retrieves the historical dividend data of Apple Inc for the last five years with an annual frequency.",
+      "parsed": {
+        "function": "corporate_finance.dividend_data",
+        "param1": "Apple Inc",
+        "param2": 5,
+        "param3": "annually"
+      },
+      "correct": false,
+      "message": "Missing required params: ['company', 'years']"
+    },
+    {
+      "id": "multiple_55",
+      "question": "Predict the stock price for Google for the next 3 days.",
+      "expected_functions": [
+        "stock_forecast",
+        "weather_forecast"
+      ],
+      "predicted_response": "{\"function\": \"stock_forecast\", \"company\": \"Google\", \"days\": 3}",
+      "parsed": {
+        "function": "stock_forecast",
+        "company": "Google",
+        "days": 3
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_56",
+      "question": "Find the average closing price of Apple stock in the past 60 days",
+      "expected_functions": [
+        "volume_traded",
+        "total_revenue",
+        "avg_closing_price"
+      ],
+      "predicted_response": "{\"function\": \"avg_closing_price\", \"company\": \"Apple\", \"days\": 60, \"data_source\": \"yahoo finance\"}",
+      "parsed": {
+        "function": "avg_closing_price",
+        "company": "Apple",
+        "days": 60,
+        "data_source": "yahoo finance"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_57",
+      "question": "Can you please calculate the compound interest for a principle of $1000, annual rate of 5% over 10 years with 4 compound per year.",
+      "expected_functions": [
+        "financial.compound_interest",
+        "financial.simple_interest"
+      ],
+      "predicted_response": "{\"function\": \"financial.compound_interest\", \"principle\": 1000.0, \"rate\": 0.05, \"time\": 10, \"n\": 4}",
+      "parsed": {
+        "function": "financial.compound_interest",
+        "principle": 1000.0,
+        "rate": 0.05,
+        "time": 10,
+        "n": 4
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_58",
+      "question": "Search for divorce law specialists in Los Angeles",
+      "expected_functions": [
+        "doctor.search",
+        "lawyer.search"
+      ],
+      "predicted_response": "{\"function\": \"lawyer.search\", \"location\": \"Los Angeles\", \"expertise\": \"divorce\"}",
+      "parsed": {
+        "function": "lawyer.search",
+        "location": "Los Angeles",
+        "expertise": "divorce"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_59",
+      "question": "Find lawyers specializing in criminal law near me in New York.",
+      "expected_functions": [
+        "car_rental",
+        "lawyer_finder"
+      ],
+      "predicted_response": "{\"function\": \"lawyer_finder\", \"location\": \"New York\", \"specialization\": [\"criminal law\"], \"experience\": 1}",
+      "parsed": {
+        "function": "lawyer_finder",
+        "location": "New York",
+        "specialization": [
+          "criminal law"
+        ],
+        "experience": 1
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_60",
+      "question": "What will be the humidity and temperature for New York City after 7 days?",
+      "expected_functions": [
+        "event_search",
+        "movie_showtimes",
+        "humidity_temperature_forecast"
+      ],
+      "predicted_response": "{\"function\": \"humidity_temperature_forecast\", \"location\": \"New York City\", \"days\": 7}",
+      "parsed": {
+        "function": "humidity_temperature_forecast",
+        "location": "New York City",
+        "days": 7
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_61",
+      "question": "Find a Landscape Architect who is experienced 5 years in small space garden design in Portland",
+      "expected_functions": [
+        "home_renovation_expert.find_specialty",
+        "landscape_architect.find_specialty"
+      ],
+      "predicted_response": "{\"function\": \"landscape_architect.find_specialty\", \"location\": \"Portland\", \"specialization\": \"small space garden design\", \"years_experience\": 5}",
+      "parsed": {
+        "function": "landscape_architect.find_specialty",
+        "location": "Portland",
+        "specialization": "small space garden design",
+        "years_experience": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_62",
+      "question": "Find me the closest nature park that allows camping and has scenic views in Boston, MA.",
+      "expected_functions": [
+        "nature_park.find_nearby",
+        "restaurant.find_nearby"
+      ],
+      "predicted_response": "{\"function\": \"nature_park.find_nearby\", \"location\": \"Boston, MA\", \"features\": [\"camping\", \"scenic views\"]}",
+      "parsed": {
+        "function": "nature_park.find_nearby",
+        "location": "Boston, MA",
+        "features": [
+          "camping",
+          "scenic views"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_63",
+      "question": "What will be the air quality index of New York for the next week?",
+      "expected_functions": [
+        "air_quality_forecast",
+        "weather_forecast",
+        "news"
+      ],
+      "predicted_response": "{\"function\": \"air_quality_forecast\", \"location\": \"New York\", \"days\": 7}",
+      "parsed": {
+        "function": "air_quality_forecast",
+        "location": "New York",
+        "days": 7
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_64",
+      "question": "Give me the UV index for Tokyo for tomorrow, June01 2023.",
+      "expected_functions": [
+        "uv_index.get_future",
+        "rainfall_prediction",
+        "snowfall_prediction"
+      ],
+      "predicted_response": "{\"function\": \"uv_index.get_future\", \"location\": \"Tokyo\", \"date\": \"06-01-2023\"}",
+      "parsed": {
+        "function": "uv_index.get_future",
+        "location": "Tokyo",
+        "date": "06-01-2023"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_65",
+      "question": "Find the distance between New York City and Los Angeles.",
+      "expected_functions": [
+        "timezones.get_difference",
+        "geodistance.find",
+        "flights.search"
+      ],
+      "predicted_response": "{\"function\": \"geodistance.find\", \"origin\": \"New York City\", \"destination\": \"Los Angeles\"}",
+      "parsed": {
+        "function": "geodistance.find",
+        "origin": "New York City",
+        "destination": "Los Angeles"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_66",
+      "question": "How much traffic should I expect from Las Vegas to Los Angeles this weekend?",
+      "expected_functions": [
+        "calculate_distance",
+        "traffic_estimate",
+        "weather_forecast"
+      ],
+      "predicted_response": "{\"function\": \"traffic_estimate\", \"start_location\": \"Las Vegas\", \"end_location\": \"Los Angeles\", \"time_period\": \"weekend\"}",
+      "parsed": {
+        "function": "traffic_estimate",
+        "start_location": "Las Vegas",
+        "end_location": "Los Angeles",
+        "time_period": "weekend"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_67",
+      "question": "Translate Hello, how are you? from English to French.",
+      "expected_functions": [
+        "translate",
+        "sentiment_analysis",
+        "word_count"
+      ],
+      "predicted_response": "{\"function\": \"translate\", \"text\": \"Hello, how are you?\", \"source_language\": \"English\", \"target_language\": \"French\"}",
+      "parsed": {
+        "function": "translate",
+        "text": "Hello, how are you?",
+        "source_language": "English",
+        "target_language": "French"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_68",
+      "question": "Can I find a historical fiction book at the New York public library?",
+      "expected_functions": [
+        "library.search_books",
+        "google.books_search",
+        "openlibrary.books_search"
+      ],
+      "predicted_response": "{\"function\": \"library.search_books\", \"param1\": \"New York public library\", \"param2\": \"historical fiction\"}",
+      "parsed": {
+        "function": "library.search_books",
+        "param1": "New York public library",
+        "param2": "historical fiction"
+      },
+      "correct": false,
+      "message": "Missing required params: ['location', 'genre']"
+    },
+    {
+      "id": "multiple_69",
+      "question": "Determine my personality type based on the five factor model with given information: I'm talkative, gets nervous easily, has few artistic interests, tend to be lazy and has a forgiving nature.",
+      "expected_functions": [
+        "MBTI.analyse",
+        "five_factor_model.analyse"
+      ],
+      "predicted_response": "{\"function\": \"five_factor_model.analyse\", \"talkative\": true, \"nervous\": true, \"artistic_interests\": false, \"lazy\": true, \"forgiving\": true}",
+      "parsed": {
+        "function": "five_factor_model.analyse",
+        "talkative": true,
+        "nervous": true,
+        "artistic_interests": false,
+        "lazy": true,
+        "forgiving": true
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_70",
+      "question": "Who were the kings of France during the 18th century?",
+      "expected_functions": [
+        "european_history.get_events",
+        "european_history.get_culture",
+        "european_history.get_monarchs"
+      ],
+      "predicted_response": "{\"function\": \"european_history.get_monarchs\", \"country\": \"France\", \"century\": 18}",
+      "parsed": {
+        "function": "european_history.get_monarchs",
+        "country": "France",
+        "century": 18
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_71",
+      "question": "How many veterans were there in the United States in the year 1954?",
+      "expected_functions": [
+        "get_bureau_statistics",
+        "get_population",
+        "get_demographics"
+      ],
+      "predicted_response": "{\"function\": \"get_population\", \"year\": 1954, \"category\": \"veterans\"}",
+      "parsed": {
+        "function": "get_population",
+        "year": 1954,
+        "category": "veterans"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_72",
+      "question": "What was the population of California in 1970?",
+      "expected_functions": [
+        "us_history.population_by_state_year",
+        "us_economy.gdp_by_state_year"
+      ],
+      "predicted_response": "{\"function\": \"us_history.population_by_state_year\", \"param1\": \"California\", \"param2\": 1970}",
+      "parsed": {
+        "function": "us_history.population_by_state_year",
+        "param1": "California",
+        "param2": 1970
+      },
+      "correct": false,
+      "message": "Missing required params: ['state', 'year']"
+    },
+    {
+      "id": "multiple_73",
+      "question": "Who was the founder of Buddhism and where was it originated?",
+      "expected_functions": [
+        "religion.get_core_beliefs",
+        "religion.get_origin"
+      ],
+      "predicted_response": "{\"function\": \"religion.get_origin\", \"religion\": \"Buddhism\"}",
+      "parsed": {
+        "function": "religion.get_origin",
+        "religion": "Buddhism"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_74",
+      "question": "Find the price of Van Gogh's painting 'Starry Night' on all auction platforms.",
+      "expected_functions": [
+        "art_auction.fetch_artwork_price",
+        "library.search_book"
+      ],
+      "predicted_response": "{\"function\": \"art_auction.fetch_artwork_price\", \"artwork_name\": \"Starry Night\", \"artist\": \"Van Gogh\", \"platform\": \"all\"}",
+      "parsed": {
+        "function": "art_auction.fetch_artwork_price",
+        "artwork_name": "Starry Night",
+        "artist": "Van Gogh",
+        "platform": "all"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_75",
+      "question": "Which paint color is currently most popular for living rooms?",
+      "expected_functions": [
+        "weather_forecast",
+        "paint_color.trends",
+        "house_price_trends"
+      ],
+      "predicted_response": "{\"function\": \"paint_color.trends\", \"room\": \"Living room\"}",
+      "parsed": {
+        "function": "paint_color.trends",
+        "room": "Living room"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_76",
+      "question": "I want to order a custom bronze sculpture of a horse. What material options are available?",
+      "expected_functions": [
+        "painting.create_custom",
+        "sculpture.create_custom"
+      ],
+      "predicted_response": "{\"function\": \"sculpture.create_custom\", \"item\": \"horse\", \"material\": \"bronze\"}",
+      "parsed": {
+        "function": "sculpture.create_custom",
+        "item": "horse",
+        "material": "bronze"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_77",
+      "question": "Search for famous contemporary sculptures in New York.",
+      "expected_functions": [
+        "tourist_attraction.find",
+        "artwork_search.find",
+        "park_search.find"
+      ],
+      "predicted_response": "{\"function\": \"artwork_search.find\", \"type\": \"sculpture\", \"location\": \"New York\", \"era\": \"contemporary\"}",
+      "parsed": {
+        "function": "artwork_search.find",
+        "type": "sculpture",
+        "location": "New York",
+        "era": "contemporary"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_78",
+      "question": "Get me information about Natural History Museum in London including timings, exhibitions, and accessibility.",
+      "expected_functions": [
+        "tourist_spot_info",
+        "museum_info"
+      ],
+      "predicted_response": "{\"function\": \"museum_info\", \"museum\": \"Natural History Museum\", \"city\": \"London\", \"features\": [\"timings\", \"exhibitions\", \"accessibility\"]}",
+      "parsed": {
+        "function": "museum_info",
+        "museum": "Natural History Museum",
+        "city": "London",
+        "features": [
+          "timings",
+          "exhibitions",
+          "accessibility"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_79",
+      "question": "Find art exhibitions for the upcoming month in the Museum of Modern Art, New York.",
+      "expected_functions": [
+        "restaurant_info",
+        "exhibition_info"
+      ],
+      "predicted_response": "{\"function\": \"exhibition_info\", \"museum_name\": \"Museum of Modern Art, New York\", \"month\": 1}",
+      "parsed": {
+        "function": "exhibition_info",
+        "museum_name": "Museum of Modern Art, New York",
+        "month": 1
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_80",
+      "question": "Find a local guitar shop that also offers violin lessons in Nashville.",
+      "expected_functions": [
+        "music_shop.find_nearby",
+        "gym.find_nearby"
+      ],
+      "predicted_response": "{\"function\": \"music_shop.find_nearby\", \"location\": \"Nashville, TN\", \"services\": [\"violin lessons\"]}",
+      "parsed": {
+        "function": "music_shop.find_nearby",
+        "location": "Nashville, TN",
+        "services": [
+          "violin lessons"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_81",
+      "question": "Book a ticket for the upcoming Eminem concert in New York City, I would like to get the one with backstage access.",
+      "expected_functions": [
+        "concert.book_ticket",
+        "festival.book_ticket"
+      ],
+      "predicted_response": "{\"function\": \"concert.book_ticket\", \"param1\": \"Eminem\", \"param2\": \"New York City\", \"param3\": [\"backstage pass\"]}\n\nThe function call for booking a ticket for the Eminem concert in New York City with backstage access is:\n\nconcert.book_ticket(Eminem, New York City, [\"backstage pass\"])",
+      "parsed": {
+        "function": "concert.book_ticket",
+        "param1": "Eminem",
+        "param2": "New York City",
+        "param3": [
+          "backstage pass"
+        ]
+      },
+      "correct": false,
+      "message": "Missing required params: ['artist', 'location']"
+    },
+    {
+      "id": "multiple_82",
+      "question": "Play a song in C Major key at tempo 120 bpm.",
+      "expected_functions": [
+        "music.generate",
+        "audio.generate"
+      ],
+      "predicted_response": "{\"function\": \"music.generate\", \"key\": \"C Major\", \"tempo\": 120, \"time_signature\": \"4/4\"}",
+      "parsed": {
+        "function": "music.generate",
+        "key": "C Major",
+        "tempo": 120,
+        "time_signature": "4/4"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_83",
+      "question": "How many goals has Lionel Messi scored for Barcelona till date?",
+      "expected_functions": [
+        "team_stats.get_top_scorer",
+        "league_stats.get_top_scorer",
+        "player_stats.get_all_time_goals"
+      ],
+      "predicted_response": "{\"function\": \"player_stats.get_all_time_goals\", \"player_name\": \"Lionel Messi\", \"team_name\": \"Barcelona\"}",
+      "parsed": {
+        "function": "player_stats.get_all_time_goals",
+        "player_name": "Lionel Messi",
+        "team_name": "Barcelona"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_84",
+      "question": "Give me the top 10 goal scorers in the UEFA Champions League from Barcelona team.",
+      "expected_functions": [
+        "getTopGoalScorers",
+        "getTopAssists"
+      ],
+      "predicted_response": "{\"function\": \"getTopGoalScorers\", \"competition\": \"UEFA Champions League\", \"team\": \"Barcelona\", \"number\": 10}",
+      "parsed": {
+        "function": "getTopGoalScorers",
+        "competition": "UEFA Champions League",
+        "team": "Barcelona",
+        "number": 10
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_85",
+      "question": "Get the soccer scores for Real Madrid games in La Liga for the last 5 rounds.",
+      "expected_functions": [
+        "basketball_scores.get_scores",
+        "soccer_scores.get_scores"
+      ],
+      "predicted_response": "{\"function\": \"soccer_scores.get_scores\", \"team\": \"Real Madrid\", \"league\": \"La Liga\", \"rounds\": 5}",
+      "parsed": {
+        "function": "soccer_scores.get_scores",
+        "team": "Real Madrid",
+        "league": "La Liga",
+        "rounds": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_86",
+      "question": "What are some recommended board games for 2 players and strategy based from store BoardGameGeek?",
+      "expected_functions": [
+        "BoardGameGeek.recommend",
+        "AmazonGameStore.recommend"
+      ],
+      "predicted_response": "{\"function\": \"BoardGameGeek.recommend\", \"numPlayers\": 2, \"category\": \"strategy\"}",
+      "parsed": {
+        "function": "BoardGameGeek.recommend",
+        "numPlayers": 2,
+        "category": "strategy"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_87",
+      "question": "Find the latest update or patch for the game 'Cyberpunk 2077' on Xbox platform.",
+      "expected_functions": [
+        "games.reviews.find",
+        "games.update.find",
+        "games.price.find"
+      ],
+      "predicted_response": "{\"function\": \"games.update.find\", \"game\": \"Cyberpunk 2077\", \"platform\": \"Xbox\"}",
+      "parsed": {
+        "function": "games.update.find",
+        "game": "Cyberpunk 2077",
+        "platform": "Xbox"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_88",
+      "question": "Find me the number of active players in the game 'World of Warcraft' in 2020.",
+      "expected_functions": [
+        "video_games.get_player_count",
+        "video_games.get_sales"
+      ],
+      "predicted_response": "{\"function\": \"video_games.get_player_count\", \"game_title\": \"World of Warcraft\", \"year\": 2020}",
+      "parsed": {
+        "function": "video_games.get_player_count",
+        "game_title": "World of Warcraft",
+        "year": 2020
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_89",
+      "question": "Find a healthy lunch recipe under 500 calories that uses chicken and mushrooms.",
+      "expected_functions": [
+        "restaurant_search",
+        "ingredient_replace",
+        "recipe_search"
+      ],
+      "predicted_response": "{\"function\": \"recipe_search\", \"ingredients\": [\"chicken\", \"mushrooms\"], \"calories\": 500, \"meal\": \"lunch\"}",
+      "parsed": {
+        "function": "recipe_search",
+        "ingredients": [
+          "chicken",
+          "mushrooms"
+        ],
+        "calories": 500,
+        "meal": "lunch"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_90",
+      "question": "I want a seafood restaurant in Seattle that can accommodate a group of 5.",
+      "expected_functions": [
+        "events.find_event",
+        "restaurant.find_group"
+      ],
+      "predicted_response": "{\"function\": \"restaurant.find_group\", \"location\": \"Seattle, WA\", \"cuisine\": [\"seafood\"], \"group_size\": 5}",
+      "parsed": {
+        "function": "restaurant.find_group",
+        "location": "Seattle, WA",
+        "cuisine": [
+          "seafood"
+        ],
+        "group_size": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_91",
+      "question": "Can I find a good cooking recipe for apple pie using less than 5 ingredients?",
+      "expected_functions": [
+        "restaurant.find",
+        "recipe.find"
+      ],
+      "predicted_response": "{\"function\": \"recipe.find\", \"mainIngredient\": \"apple\", \"ingredientLimit\": 5}",
+      "parsed": {
+        "function": "recipe.find",
+        "mainIngredient": "apple",
+        "ingredientLimit": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_92",
+      "question": "Get me a list of available vegetarian and gluten-free foods at the Walmart near Denver.",
+      "expected_functions": [
+        "safeway.vegan_products",
+        "wholefoods.vegan_products",
+        "walmart.vegan_products"
+      ],
+      "predicted_response": "{\"function\": \"walmart.vegan_products\", \"location\": \"Denver, CO\", \"categories\": [\"vegetarian\", \"gluten-free\"]}",
+      "parsed": {
+        "function": "walmart.vegan_products",
+        "location": "Denver, CO",
+        "categories": [
+          "vegetarian",
+          "gluten-free"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_93",
+      "question": "Book a deluxe room for 2 nights at the Marriott hotel in New York and add breakfast as an extra service",
+      "expected_functions": [
+        "car.rental",
+        "hotel.book"
+      ],
+      "predicted_response": "{\"function\": \"hotel.book\", \"location\": \"New York\", \"roomType\": \"deluxe\", \"nights\": 2, \"additional_services\": [\"breakfast\"]}",
+      "parsed": {
+        "function": "hotel.book",
+        "location": "New York",
+        "roomType": "deluxe",
+        "nights": 2,
+        "additional_services": [
+          "breakfast"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_94",
+      "question": "I want to book a suite with queen size bed for 3 nights in Hilton New York. Can you find the pricing for me?",
+      "expected_functions": [
+        "hotel_room_pricing.get",
+        "car_rental_pricing.get",
+        "flight_ticket_pricing.get"
+      ],
+      "predicted_response": "{\"function\": \"hotel_room_pricing.get\", \"hotelName\": \"Hilton New York\", \"roomType\": \"suite with queen size bed\", \"nights\": 3}",
+      "parsed": {
+        "function": "hotel_room_pricing.get",
+        "hotelName": "Hilton New York",
+        "roomType": "suite with queen size bed",
+        "nights": 3
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_95",
+      "question": "Convert 200 euros to US dollars using current exchange rate.",
+      "expected_functions": [
+        "currency_exchange.convert",
+        "unit_conversion.convert"
+      ],
+      "predicted_response": "{\"function\": \"currency_exchange.convert\", \"param1\": 200, \"param2\": \"euros\", \"param3\": \"US dollars\", \"param4\": true}",
+      "parsed": {
+        "function": "currency_exchange.convert",
+        "param1": 200,
+        "param2": "euros",
+        "param3": "US dollars",
+        "param4": true
+      },
+      "correct": false,
+      "message": "Missing required params: ['amount', 'from_currency', 'to_currency']"
+    },
+    {
+      "id": "multiple_96",
+      "question": "Solve a quadratic equation where a=2, b=6, and c=5",
+      "expected_functions": [
+        "get_stock_info",
+        "portfolio_future_value",
+        "solve_quadratic_equation"
+      ],
+      "predicted_response": "{\"function\": \"solve_quadratic_equation\", \"a\": 2, \"b\": 6, \"c\": 5}",
+      "parsed": {
+        "function": "solve_quadratic_equation",
+        "a": 2,
+        "b": 6,
+        "c": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_97",
+      "question": "What's the area of a circle with a radius of 10?",
+      "expected_functions": [
+        "geometry.area_circle",
+        "plot_sine_wave"
+      ],
+      "predicted_response": "{\"function\": \"geometry.area_circle\", \"param1\": 10, \"param2\": \"meters\"}",
+      "parsed": {
+        "function": "geometry.area_circle",
+        "param1": 10,
+        "param2": "meters"
+      },
+      "correct": false,
+      "message": "Missing required params: ['radius']"
+    },
+    {
+      "id": "multiple_98",
+      "question": "Calculate the circumference of a circle with radius 3",
+      "expected_functions": [
+        "get_earliest_reference",
+        "get_current_time",
+        "music_generator.generate_melody",
+        "geometry.circumference"
+      ],
+      "predicted_response": "{\"function\": \"geometry.circumference\", \"radius\": 3, \"units\": \"cm\"}",
+      "parsed": {
+        "function": "geometry.circumference",
+        "radius": 3,
+        "units": "cm"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "multiple_99",
+      "question": "Calculate the derivative of the function 2x^2 at x = 1.",
+      "expected_functions": [
+        "calculus.derivative",
+        "get_personality_traits"
+      ],
+      "predicted_response": "{\"function\": \"calculus.derivative\", \"value\": 1, \"function_variable\": \"x\"}",
+      "parsed": {
+        "function": "calculus.derivative",
+        "value": 1,
+        "function_variable": "x"
+      },
+      "correct": false,
+      "message": "Missing required params: ['function']"
+    }
+  ],
+  "accuracy": 0.8,
+  "success_rate": 1.0
+}

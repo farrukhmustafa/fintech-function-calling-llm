@@ -1,0 +1,25 @@
+# Python dependencies for evaluation scripts
+
+# Core dependencies
+requests>=2.31.0
+aiohttp>=3.9.0
+asyncio-mqtt>=0.16.0
+
+# ML and evaluation
+transformers>=4.35.0
+datasets>=2.14.0
+torch>=2.1.0
+
+# MLflow (optional, for local tracking)
+mlflow>=2.8.0
+
+# Data processing
+pandas>=2.1.0
+numpy>=1.24.0
+
+# Utilities
+tqdm>=4.66.0
+pyyaml>=6.0.1
+
+# BFCL evaluation
+

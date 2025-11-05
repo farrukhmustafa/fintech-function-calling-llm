@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-serving
+  namespace: inference
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm-serving
+  template:
+    metadata:
+      labels:
+        app: vllm-serving
+    spec:
+      nodeSelector:
+        library-solution: k8s-training
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: vllm
+        image: vllm/vllm-openai:latest
+        args:
+        - "--model"
+        - "/models/merged-qwen25-7b-finetuned"  # Direct path to merged model
+        - "--port"
+        - "8000"
+        - "--host"
+        - "0.0.0.0"
+        - "--tensor-parallel-size"
+        - "1"
+        - "--gpu-memory-utilization"
+        - "0.9"
+        - "--max-model-len"
+        - "4096"
+        - "--enable-prefix-caching"
+        - "--trust-remote-code"
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: CUDA_VISIBLE_DEVICES
+          value: "0"
+        resources:
+          requests:
+            nvidia.com/gpu: 1
+            cpu: 8
+            memory: 64Gi
+          limits:
+            nvidia.com/gpu: 1
+            cpu: 16
+            memory: 128Gi
+        volumeMounts:
+        - name: model-data
+          mountPath: /models
+          readOnly: true
+      volumes:
+      - name: model-data
+        hostPath:
+          path: /mnt/data/outputs
+          type: Directory

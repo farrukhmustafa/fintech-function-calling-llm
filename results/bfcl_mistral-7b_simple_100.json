@@ -1,0 +1,1621 @@
+{
+  "dataset": "data/bfcl_simple_parsed.json",
+  "total": 100,
+  "correct": 74,
+  "incorrect": 26,
+  "errors": 0,
+  "details": [
+    {
+      "id": "simple_0",
+      "question": "Find the area of a triangle with a base of 10 units and height of 5 units.",
+      "expected_functions": [
+        "calculate_triangle_area"
+      ],
+      "predicted_response": "{\"function\": \"calculate_triangle_area\", \"base\": 10, \"height\": 5}",
+      "parsed": {
+        "function": "calculate_triangle_area",
+        "base": 10,
+        "height": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_1",
+      "question": "Calculate the factorial of 5 using math functions.",
+      "expected_functions": [
+        "math.factorial"
+      ],
+      "predicted_response": "{\"function\": \"math.factorial\", \"param1\": 5}",
+      "parsed": {
+        "function": "math.factorial",
+        "param1": 5
+      },
+      "correct": false,
+      "message": "Missing required params: ['number']"
+    },
+    {
+      "id": "simple_2",
+      "question": "Calculate the hypotenuse of a right triangle given the lengths of the other two sides as 4 and 5.",
+      "expected_functions": [
+        "math.hypot"
+      ],
+      "predicted_response": "{\"function\": \"math.hypot\", \"param1\": 4, \"param2\": 5}",
+      "parsed": {
+        "function": "math.hypot",
+        "param1": 4,
+        "param2": 5
+      },
+      "correct": false,
+      "message": "Missing required params: ['x', 'y']"
+    },
+    {
+      "id": "simple_3",
+      "question": "Find the roots of a quadratic equation with coefficients a=1, b=-3, c=2.",
+      "expected_functions": [
+        "algebra.quadratic_roots"
+      ],
+      "predicted_response": "{\"function\": \"algebra.quadratic_roots\", \"param1\": 1, \"param2\": -3, \"param3\": 2}",
+      "parsed": {
+        "function": "algebra.quadratic_roots",
+        "param1": 1,
+        "param2": -3,
+        "param3": 2
+      },
+      "correct": false,
+      "message": "Missing required params: ['a', 'b', 'c']"
+    },
+    {
+      "id": "simple_4",
+      "question": "Solve a quadratic equation where a=2, b=6, and c=5",
+      "expected_functions": [
+        "solve_quadratic_equation"
+      ],
+      "predicted_response": "{\"function\": \"solve_quadratic_equation\", \"param1\": 2, \"param2\": 6, \"param3\": 5}",
+      "parsed": {
+        "function": "solve_quadratic_equation",
+        "param1": 2,
+        "param2": 6,
+        "param3": 5
+      },
+      "correct": false,
+      "message": "Missing required params: ['a', 'b', 'c']"
+    },
+    {
+      "id": "simple_5",
+      "question": "Find all the roots of a quadratic equation given coefficients a = 3, b = -11, and c = -4.",
+      "expected_functions": [
+        "solve_quadratic"
+      ],
+      "predicted_response": "{\"function\": \"solve_quadratic\", \"a\": 3, \"b\": -11, \"c\": -4}",
+      "parsed": {
+        "function": "solve_quadratic",
+        "a": 3,
+        "b": -11,
+        "c": -4
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_6",
+      "question": "What are the roots of the quadratic equation where a=2, b=5 and c=3 ?",
+      "expected_functions": [
+        "solve_quadratic"
+      ],
+      "predicted_response": "{\"function\": \"solve_quadratic\", \"param1\": 2, \"param2\": 5, \"param3\": 3}",
+      "parsed": {
+        "function": "solve_quadratic",
+        "param1": 2,
+        "param2": 5,
+        "param3": 3
+      },
+      "correct": false,
+      "message": "Missing required params: ['a', 'b', 'c']"
+    },
+    {
+      "id": "simple_7",
+      "question": "What is the circumference of a circle with a radius of 4 inches?",
+      "expected_functions": [
+        "calculate_circumference"
+      ],
+      "predicted_response": "{\"function\": \"calculate_circumference\", \"param1\": 4, \"param2\": \"inches\"}",
+      "parsed": {
+        "function": "calculate_circumference",
+        "param1": 4,
+        "param2": "inches"
+      },
+      "correct": false,
+      "message": "Missing required params: ['radius']"
+    },
+    {
+      "id": "simple_8",
+      "question": "What's the area of a circle with a radius of 10?",
+      "expected_functions": [
+        "geometry.area_circle"
+      ],
+      "predicted_response": "{\"function\": \"geometry.area_circle\", \"param1\": 10, \"param2\": \"meters\"}",
+      "parsed": {
+        "function": "geometry.area_circle",
+        "param1": 10,
+        "param2": "meters"
+      },
+      "correct": false,
+      "message": "Missing required params: ['radius']"
+    },
+    {
+      "id": "simple_9",
+      "question": "Calculate the area of a circle with a radius of 5 units.",
+      "expected_functions": [
+        "geometry.calculate_area_circle"
+      ],
+      "predicted_response": "{\"function\": \"geometry.calculate_area_circle\", \"param1\": 5, \"param2\": \"units\"}",
+      "parsed": {
+        "function": "geometry.calculate_area_circle",
+        "param1": 5,
+        "param2": "units"
+      },
+      "correct": false,
+      "message": "Missing required params: ['radius']"
+    },
+    {
+      "id": "simple_10",
+      "question": "Calculate the area of a right-angled triangle given the lengths of its base and height as 6cm and 10cm.",
+      "expected_functions": [
+        "calculate_area"
+      ],
+      "predicted_response": "{\"function\": \"calculate_area\", \"base\": 6, \"height\": 10}",
+      "parsed": {
+        "function": "calculate_area",
+        "base": 6,
+        "height": 10
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_11",
+      "question": "What is the area of a triangle with base of 10 units and height of 5 units?",
+      "expected_functions": [
+        "calculate_triangle_area"
+      ],
+      "predicted_response": "{\"function\": \"calculate_triangle_area\", \"base\": 10, \"height\": 5}",
+      "parsed": {
+        "function": "calculate_triangle_area",
+        "base": 10,
+        "height": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_12",
+      "question": "Calculate the circumference of a circle with radius 3",
+      "expected_functions": [
+        "geometry.circumference"
+      ],
+      "predicted_response": "{\"function\": \"geometry.circumference\", \"param1\": 3, \"param2\": \"cm\"}",
+      "parsed": {
+        "function": "geometry.circumference",
+        "param1": 3,
+        "param2": "cm"
+      },
+      "correct": false,
+      "message": "Missing required params: ['radius']"
+    },
+    {
+      "id": "simple_13",
+      "question": "Calculate the area under the curve y=x^2 from x=1 to x=3.",
+      "expected_functions": [
+        "calculate_area_under_curve"
+      ],
+      "predicted_response": "{\"function\": \"calculate_area_under_curve\", \"function\": \"y=x^2\", \"interval\": [1.0, 3.0], \"method\": \"trapezoidal\"}",
+      "parsed": {
+        "function": "y=x^2",
+        "interval": [
+          1.0,
+          3.0
+        ],
+        "method": "trapezoidal"
+      },
+      "correct": false,
+      "message": "Wrong function. Expected one of: ['calculate_area_under_curve'], got: y=x^2"
+    },
+    {
+      "id": "simple_14",
+      "question": "Calculate the derivative of the function 3x^2 + 2x - 1.",
+      "expected_functions": [
+        "calculate_derivative"
+      ],
+      "predicted_response": "{\"function\": \"calculate_derivative\", \"function\": \"3x^2 + 2x - 1\"}",
+      "parsed": {
+        "function": "3x^2 + 2x - 1"
+      },
+      "correct": false,
+      "message": "Wrong function. Expected one of: ['calculate_derivative'], got: 3x^2 + 2x - 1"
+    },
+    {
+      "id": "simple_15",
+      "question": "Calculate the area under the curve from x = -2 to x = 3 for the function y = x^3 using simpson method.",
+      "expected_functions": [
+        "integrate"
+      ],
+      "predicted_response": "{\"function\": \"integrate\", \"function\": \"x^3\", \"start_x\": -2, \"end_x\": 3, \"method\": \"simpson\"}",
+      "parsed": {
+        "function": "x^3",
+        "start_x": -2,
+        "end_x": 3,
+        "method": "simpson"
+      },
+      "correct": false,
+      "message": "Wrong function. Expected one of: ['integrate'], got: x^3"
+    },
+    {
+      "id": "simple_16",
+      "question": "Calculate the derivative of the function 2x^2 at x = 1.",
+      "expected_functions": [
+        "calculus.derivative"
+      ],
+      "predicted_response": "{\"function\": \"calculus.derivative\", \"function_variable\": \"x\", \"value\": 1}\n\nThe derivative of the function 2x^2 at x = 1 is 4x, which evaluates to 4 at x = 1.",
+      "parsed": {
+        "function": "calculus.derivative",
+        "function_variable": "x",
+        "value": 1
+      },
+      "correct": false,
+      "message": "Missing required params: ['function']"
+    },
+    {
+      "id": "simple_17",
+      "question": "Find the prime factors of 450",
+      "expected_functions": [
+        "get_prime_factors"
+      ],
+      "predicted_response": "{\"function\": \"get_prime_factors\", \"number\": 450}",
+      "parsed": {
+        "function": "get_prime_factors",
+        "number": 450
+      },
+      "correct": false,
+      "message": "Missing required params: ['formatted']"
+    },
+    {
+      "id": "simple_18",
+      "question": "Find the prime factors of the number 123456.",
+      "expected_functions": [
+        "number_analysis.prime_factors"
+      ],
+      "predicted_response": "{\"function\": \"number_analysis.prime_factors\", \"param1\": 123456}",
+      "parsed": {
+        "function": "number_analysis.prime_factors",
+        "param1": 123456
+      },
+      "correct": false,
+      "message": "Missing required params: ['number']"
+    },
+    {
+      "id": "simple_19",
+      "question": "Calculate the greatest common divisor of two numbers: 40 and 50",
+      "expected_functions": [
+        "math.gcd"
+      ],
+      "predicted_response": "{\"function\": \"math.gcd\", \"num1\": 40, \"num2\": 50}",
+      "parsed": {
+        "function": "math.gcd",
+        "num1": 40,
+        "num2": 50
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_20",
+      "question": "Find the highest common factor of 36 and 24.",
+      "expected_functions": [
+        "math.hcf"
+      ],
+      "predicted_response": "{\"function\": \"math.hcf\", \"number1\": 36, \"number2\": 24}",
+      "parsed": {
+        "function": "math.hcf",
+        "number1": 36,
+        "number2": 24
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_21",
+      "question": "Find the Greatest Common Divisor (GCD) of two numbers, say 36 and 48.",
+      "expected_functions": [
+        "number_theory.gcd"
+      ],
+      "predicted_response": "{\"function\": \"number_theory.gcd\", \"number1\": 36, \"number2\": 48}",
+      "parsed": {
+        "function": "number_theory.gcd",
+        "number1": 36,
+        "number2": 48
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_22",
+      "question": "Calculate the greatest common divisor of two given numbers, for example 12 and 15.",
+      "expected_functions": [
+        "math.gcd"
+      ],
+      "predicted_response": "{\"function\": \"math.gcd\", \"num1\": 12, \"num2\": 15}",
+      "parsed": {
+        "function": "math.gcd",
+        "num1": 12,
+        "num2": 15
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_23",
+      "question": "What is the prime factorization of the number 60? Return them in the form of dictionary",
+      "expected_functions": [
+        "prime_factorize"
+      ],
+      "predicted_response": "{\"function\": \"prime_factorize\", \"number\": 60, \"return_type\": \"dictionary\"}",
+      "parsed": {
+        "function": "prime_factorize",
+        "number": 60,
+        "return_type": "dictionary"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_24",
+      "question": "Find the greatest common divisor (GCD) of 12 and 18",
+      "expected_functions": [
+        "math.gcd"
+      ],
+      "predicted_response": "{\"function\": \"math.gcd\", \"num1\": 12, \"num2\": 18}",
+      "parsed": {
+        "function": "math.gcd",
+        "num1": 12,
+        "num2": 18
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_25",
+      "question": "Calculate the final velocity of an object falling from a 150 meter building, assuming initial velocity is zero.",
+      "expected_functions": [
+        "calculate_final_velocity"
+      ],
+      "predicted_response": "{\"function\": \"calculate_final_velocity\", \"height\": 150, \"initial_velocity\": 0, \"gravity\": 9.81}",
+      "parsed": {
+        "function": "calculate_final_velocity",
+        "height": 150,
+        "initial_velocity": 0,
+        "gravity": 9.81
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_26",
+      "question": "Calculate the velocity of a car that travels a distance of 50 kilometers for a duration of 2 hours?",
+      "expected_functions": [
+        "calculate_velocity"
+      ],
+      "predicted_response": "{\"function\": \"calculate_velocity\", \"param1\": 50, \"param2\": 2}",
+      "parsed": {
+        "function": "calculate_velocity",
+        "param1": 50,
+        "param2": 2
+      },
+      "correct": false,
+      "message": "Missing required params: ['distance', 'duration']"
+    },
+    {
+      "id": "simple_27",
+      "question": "Calculate the final velocity of a vehicle after accelerating at 2 meters/second^2 for a duration of 5 seconds, starting from a speed of 10 meters/second.",
+      "expected_functions": [
+        "final_velocity"
+      ],
+      "predicted_response": "{\"function\": \"final_velocity\", \"initial_velocity\": 10, \"acceleration\": 2, \"time\": 5}",
+      "parsed": {
+        "function": "final_velocity",
+        "initial_velocity": 10,
+        "acceleration": 2,
+        "time": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_28",
+      "question": "Calculate the displacement of a car given the initial velocity of 10 and acceleeration of 9.8 within 5 seconds.",
+      "expected_functions": [
+        "calculate_displacement"
+      ],
+      "predicted_response": "{\"function\": \"calculate_displacement\", \"initial_velocity\": 10, \"time\": 5, \"acceleration\": 9.8}",
+      "parsed": {
+        "function": "calculate_displacement",
+        "initial_velocity": 10,
+        "time": 5,
+        "acceleration": 9.8
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_29",
+      "question": "What is the final speed of an object dropped from rest after falling for 5 seconds if we neglect air resistance?",
+      "expected_functions": [
+        "calculate_final_speed"
+      ],
+      "predicted_response": "{\"function\": \"calculate_final_speed\", \"initial_speed\": 0, \"time\": 5, \"gravity\": -9.81}",
+      "parsed": {
+        "function": "calculate_final_speed",
+        "initial_speed": 0,
+        "time": 5,
+        "gravity": -9.81
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_30",
+      "question": "What is the final velocity of a vehicle that started from rest and accelerated at 4 m/s^2 for a distance of 300 meters?",
+      "expected_functions": [
+        "kinematics.final_velocity_from_distance"
+      ],
+      "predicted_response": "{\"function\": \"kinematics.final_velocity_from_distance\", \"acceleration\": 4, \"distance\": 300, \"initial_velocity\": 0}",
+      "parsed": {
+        "function": "kinematics.final_velocity_from_distance",
+        "acceleration": 4,
+        "distance": 300,
+        "initial_velocity": 0
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_31",
+      "question": "Calculate the final velocity of an object, knowing that it started from rest, accelerated at a rate of 9.8 m/s^2 for a duration of 5 seconds.",
+      "expected_functions": [
+        "calculate_final_velocity"
+      ],
+      "predicted_response": "{\"function\": \"calculate_final_velocity\", \"initial_velocity\": 0, \"acceleration\": 9.8, \"time\": 5}",
+      "parsed": {
+        "function": "calculate_final_velocity",
+        "initial_velocity": 0,
+        "acceleration": 9.8,
+        "time": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_32",
+      "question": "Calculate the final speed of an object dropped from 100 m without air resistance.",
+      "expected_functions": [
+        "calculate_final_speed"
+      ],
+      "predicted_response": "{\"function\": \"calculate_final_speed\", \"param1\": 100, \"param2\": 9.8}",
+      "parsed": {
+        "function": "calculate_final_speed",
+        "param1": 100,
+        "param2": 9.8
+      },
+      "correct": false,
+      "message": "Missing required params: ['initial_velocity', 'height']"
+    },
+    {
+      "id": "simple_33",
+      "question": "Get directions from Sydney to Melbourne using the fastest route.",
+      "expected_functions": [
+        "get_directions"
+      ],
+      "predicted_response": "{\"function\": \"get_directions\", \"start_location\": \"Sydney\", \"end_location\": \"Melbourne\", \"route_type\": \"fastest\"}",
+      "parsed": {
+        "function": "get_directions",
+        "start_location": "Sydney",
+        "end_location": "Melbourne",
+        "route_type": "fastest"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_34",
+      "question": "Create an itinerary for a 7 days trip to Tokyo with daily budgets not exceeding $100 and prefer exploring nature.",
+      "expected_functions": [
+        "travel_itinerary_generator"
+      ],
+      "predicted_response": "{\"function\": \"travel_itinerary_generator\", \"param1\": \"Tokyo\", \"param2\": 7, \"param3\": 100, \"param4\": \"nature\"}",
+      "parsed": {
+        "function": "travel_itinerary_generator",
+        "param1": "Tokyo",
+        "param2": 7,
+        "param3": 100,
+        "param4": "nature"
+      },
+      "correct": false,
+      "message": "Missing required params: ['destination', 'days', 'daily_budget']"
+    },
+    {
+      "id": "simple_35",
+      "question": "Find an all vegan restaurant in New York that opens until at least 11 PM.",
+      "expected_functions": [
+        "vegan_restaurant.find_nearby"
+      ],
+      "predicted_response": "{\"function\": \"vegan_restaurant.find_nearby\", \"location\": \"New York\", \"operating_hours\": 23}",
+      "parsed": {
+        "function": "vegan_restaurant.find_nearby",
+        "location": "New York",
+        "operating_hours": 23
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_36",
+      "question": "Find the shortest driving distance between New York City and Washington D.C.",
+      "expected_functions": [
+        "get_shortest_driving_distance"
+      ],
+      "predicted_response": "{\"function\": \"get_shortest_driving_distance\", \"origin\": \"New York City\", \"destination\": \"Washington D.C.\"}",
+      "parsed": {
+        "function": "get_shortest_driving_distance",
+        "origin": "New York City",
+        "destination": "Washington D.C."
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_37",
+      "question": "Find the estimated travel time by car from San Francisco to Los Angeles with stops at Santa Barbara and Monterey.",
+      "expected_functions": [
+        "route.estimate_time"
+      ],
+      "predicted_response": "{\"function\": \"route.estimate_time\", \"start_location\": \"San Francisco\", \"end_location\": \"Los Angeles\", \"stops\": [\"Santa Barbara\", \"Monterey\"]}",
+      "parsed": {
+        "function": "route.estimate_time",
+        "start_location": "San Francisco",
+        "end_location": "Los Angeles",
+        "stops": [
+          "Santa Barbara",
+          "Monterey"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_38",
+      "question": "What is the electrostatic potential between two charged bodies of 1e-9 and 2e-9 of distance 0.05?",
+      "expected_functions": [
+        "calculate_electrostatic_potential"
+      ],
+      "predicted_response": "{\"function\": \"calculate_electrostatic_potential\", \"charge1\": 1e-9, \"charge2\": 2e-9, \"distance\": 0.05, \"constant\": 8.99e9}",
+      "parsed": {
+        "function": "calculate_electrostatic_potential",
+        "charge1": 1e-09,
+        "charge2": 2e-09,
+        "distance": 0.05,
+        "constant": 8990000000.0
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_39",
+      "question": "Calculate the electric field at a point 3 meters away from a charge of 2 coulombs.",
+      "expected_functions": [
+        "calculate_electric_field"
+      ],
+      "predicted_response": "{\"function\": \"calculate_electric_field\", \"charge\": 2, \"distance\": 3, \"permitivity\": 8.854e-12}",
+      "parsed": {
+        "function": "calculate_electric_field",
+        "charge": 2,
+        "distance": 3,
+        "permitivity": 8.854e-12
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_40",
+      "question": "Calculate the magnetic field produced at the center of a circular loop carrying current of 5 Ampere with a radius of 4 meters",
+      "expected_functions": [
+        "calculate_magnetic_field"
+      ],
+      "predicted_response": "{\"function\": \"calculate_magnetic_field\", \"current\": 5, \"radius\": 4, \"permeability\": 12.57e10}",
+      "parsed": {
+        "function": "calculate_magnetic_field",
+        "current": 5,
+        "radius": 4,
+        "permeability": 125700000000.0
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_41",
+      "question": "Calculate the electromagnetic force between two charges of 5C and 7C placed 3 meters apart.",
+      "expected_functions": [
+        "electromagnetic_force"
+      ],
+      "predicted_response": "{\"function\": \"electromagnetic_force\", \"charge1\": 5, \"charge2\": 7, \"distance\": 3, \"medium_permittivity\": 8.854e-12}",
+      "parsed": {
+        "function": "electromagnetic_force",
+        "charge1": 5,
+        "charge2": 7,
+        "distance": 3,
+        "medium_permittivity": 8.854e-12
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_42",
+      "question": "Calculate the resonant frequency of an LC circuit given capacitance of 100\u00b5F and inductance of 50mH.",
+      "expected_functions": [
+        "calculate_resonant_frequency"
+      ],
+      "predicted_response": "{\"function\": \"calculate_resonant_frequency\", \"inductance\": 0.05, \"capacitance\": 0.0001}",
+      "parsed": {
+        "function": "calculate_resonant_frequency",
+        "inductance": 0.05,
+        "capacitance": 0.0001
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_43",
+      "question": "Calculate the magnetic field strength 10 meters away from a long wire carrying a current of 20 Amperes.",
+      "expected_functions": [
+        "calculate_magnetic_field_strength"
+      ],
+      "predicted_response": "{\"function\": \"calculate_magnetic_field_strength\", \"current\": 20, \"distance\": 10, \"permeability\": 12.57e-7}",
+      "parsed": {
+        "function": "calculate_magnetic_field_strength",
+        "current": 20,
+        "distance": 10,
+        "permeability": 1.257e-06
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_44",
+      "question": "Calculate the electric field strength 4 meters away from a charge of 0.01 Coulombs.",
+      "expected_functions": [
+        "calculate_electric_field_strength"
+      ],
+      "predicted_response": "{\"function\": \"calculate_electric_field_strength\", \"charge\": 0.01, \"distance\": 4, \"medium\": \"vacuum\"}",
+      "parsed": {
+        "function": "calculate_electric_field_strength",
+        "charge": 0.01,
+        "distance": 4,
+        "medium": "vacuum"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_45",
+      "question": "Calculate the energy (in Joules) absorbed or released during the phase change of 100g of water from liquid to steam at its boiling point.",
+      "expected_functions": [
+        "thermo.calculate_energy"
+      ],
+      "predicted_response": "{\"function\": \"thermo.calculate_energy\", \"param1\": 100, \"param2\": \"vaporization\", \"param3\": \"water\"}\n\nThe energy absorbed or released during the phase change of 100g of water from liquid to steam at its boiling point is 2257 kJ.",
+      "parsed": {
+        "function": "thermo.calculate_energy",
+        "param1": 100,
+        "param2": "vaporization",
+        "param3": "water"
+      },
+      "correct": false,
+      "message": "Missing required params: ['mass', 'phase_transition']"
+    },
+    {
+      "id": "simple_46",
+      "question": "Calculate the final temperature when 20 kg of water at 30 degree Celsius is mixed with 15 kg of water at 60 degree Celsius.",
+      "expected_functions": [
+        "calculate_final_temperature"
+      ],
+      "predicted_response": "{\"function\": \"calculate_final_temperature\", \"mass1\": 20, \"temperature1\": 30, \"mass2\": 15, \"temperature2\": 60}",
+      "parsed": {
+        "function": "calculate_final_temperature",
+        "mass1": 20,
+        "temperature1": 30,
+        "mass2": 15,
+        "temperature2": 60
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_47",
+      "question": "Find the boiling point and melting point of water under the sea level of 5000m.",
+      "expected_functions": [
+        "get_boiling_melting_points"
+      ],
+      "predicted_response": "{\"function\": \"get_boiling_melting_points\", \"substance\": \"water\", \"sea_level\": 5000}",
+      "parsed": {
+        "function": "get_boiling_melting_points",
+        "substance": "water",
+        "sea_level": 5000
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_48",
+      "question": "What is the density of a substance with a mass of 45 kg and a volume of 15 m\u00b3?",
+      "expected_functions": [
+        "calculate_density"
+      ],
+      "predicted_response": "{\"function\": \"calculate_density\", \"mass\": 45, \"volume\": 15}",
+      "parsed": {
+        "function": "calculate_density",
+        "mass": 45,
+        "volume": 15
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_49",
+      "question": "Calculate the absolute pressure in pascals given atmospheric pressure of 1 atm and a gauge pressure of 2 atm.",
+      "expected_functions": [
+        "calc_absolute_pressure"
+      ],
+      "predicted_response": "{\"function\": \"calc_absolute_pressure\", \"atm_pressure\": 1, \"gauge_pressure\": 2}",
+      "parsed": {
+        "function": "calc_absolute_pressure",
+        "atm_pressure": 1,
+        "gauge_pressure": 2
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_50",
+      "question": "What is the change in entropy in Joules per Kelvin of a 1kg ice block at 0\u00b0C if it is heated to 100\u00b0C under 1 atmosphere of pressure?",
+      "expected_functions": [
+        "entropy_change.calculate"
+      ],
+      "predicted_response": "{\"function\": \"entropy_change.calculate\", \"substance\": \"ice\", \"mass\": 1, \"initial_temperature\": 0, \"final_temperature\": 100, \"pressure\": 1}",
+      "parsed": {
+        "function": "entropy_change.calculate",
+        "substance": "ice",
+        "mass": 1,
+        "initial_temperature": 0,
+        "final_temperature": 100,
+        "pressure": 1
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_51",
+      "question": "Calculate the entropy change for a certain process given an initial temperature of 300K, a final temperature of 400K, and a heat capacity of 5J/K.",
+      "expected_functions": [
+        "calculate_entropy_change"
+      ],
+      "predicted_response": "{\"function\": \"calculate_entropy_change\", \"param1\": 300, \"param2\": 400, \"param3\": 5}",
+      "parsed": {
+        "function": "calculate_entropy_change",
+        "param1": 300,
+        "param2": 400,
+        "param3": 5
+      },
+      "correct": false,
+      "message": "Missing required params: ['initial_temp', 'final_temp', 'heat_capacity']"
+    },
+    {
+      "id": "simple_52",
+      "question": "Calculate the heat capacity at constant pressure for air, given its temperature is 298K and volume is 10 m^3.",
+      "expected_functions": [
+        "calc_heat_capacity"
+      ],
+      "predicted_response": "{\"function\": \"calc_heat_capacity\", \"temp\": 298, \"volume\": 10, \"gas\": \"air\"}",
+      "parsed": {
+        "function": "calc_heat_capacity",
+        "temp": 298,
+        "volume": 10,
+        "gas": "air"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_53",
+      "question": "Retrieve the sequence of DNA molecule with id `DNA123`.",
+      "expected_functions": [
+        "fetch_DNA_sequence"
+      ],
+      "predicted_response": "{\"function\": \"fetch_DNA_sequence\", \"DNA_id\": \"DNA123\"}",
+      "parsed": {
+        "function": "fetch_DNA_sequence",
+        "DNA_id": "DNA123"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_54",
+      "question": "Identify the protein sequence of a given human gene 'BRCA1'.",
+      "expected_functions": [
+        "get_protein_sequence"
+      ],
+      "predicted_response": "{\"function\": \"get_protein_sequence\", \"gene\": \"BRCA1\"}",
+      "parsed": {
+        "function": "get_protein_sequence",
+        "gene": "BRCA1"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_55",
+      "question": "Find me detailed information about the structure of human cell",
+      "expected_functions": [
+        "biology.get_cell_info"
+      ],
+      "predicted_response": "{\"function\": \"biology.get_cell_info\", \"cell_type\": \"human\", \"detailed\": true}",
+      "parsed": {
+        "function": "biology.get_cell_info",
+        "cell_type": "human",
+        "detailed": true
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_56",
+      "question": "What are the names of proteins found in the plasma membrane?",
+      "expected_functions": [
+        "cellbio.get_proteins"
+      ],
+      "predicted_response": "{\"function\": \"cellbio.get_proteins\", \"cell_compartment\": \"plasma membrane\", \"include_description\": false}",
+      "parsed": {
+        "function": "cellbio.get_proteins",
+        "cell_compartment": "plasma membrane",
+        "include_description": false
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_57",
+      "question": "Calculate the cell density in a sample with an optical density of 0.6, where the experiment dilution is 5 times.",
+      "expected_functions": [
+        "calculate_cell_density"
+      ],
+      "predicted_response": "{\"function\": \"calculate_cell_density\", \"optical_density\": 0.6, \"dilution\": 5, \"calibration_factor\": 1e9}",
+      "parsed": {
+        "function": "calculate_cell_density",
+        "optical_density": 0.6,
+        "dilution": 5,
+        "calibration_factor": 1000000000.0
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_58",
+      "question": "What is the function of ATP synthase in mitochondria?",
+      "expected_functions": [
+        "cell_biology.function_lookup"
+      ],
+      "predicted_response": "{\"function\": \"cell_biology.function_lookup\", \"molecule\": \"ATP synthase\", \"organelle\": \"mitochondria\", \"specific_function\": true}",
+      "parsed": {
+        "function": "cell_biology.function_lookup",
+        "molecule": "ATP synthase",
+        "organelle": "mitochondria",
+        "specific_function": true
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_59",
+      "question": "Calculate the molecular weight of Glucose (C6H12O6) in grams/mole.",
+      "expected_functions": [
+        "calculate_molecular_weight"
+      ],
+      "predicted_response": "{\"function\": \"calculate_molecular_weight\", \"compound\": \"C6H12O6\", \"to_unit\": \"grams/mole\"}",
+      "parsed": {
+        "function": "calculate_molecular_weight",
+        "compound": "C6H12O6",
+        "to_unit": "grams/mole"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_60",
+      "question": "Find the type of gene mutation based on SNP (Single Nucleotide Polymorphism) ID rs6034464.",
+      "expected_functions": [
+        "mutation_type.find"
+      ],
+      "predicted_response": "{\"function\": \"mutation_type.find\", \"snp_id\": \"rs6034464\"}",
+      "parsed": {
+        "function": "mutation_type.find",
+        "snp_id": "rs6034464"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_61",
+      "question": "Predict whether a person with weight 150lbs and height 5ft 10in who is lightly active will get type 2 diabetes.",
+      "expected_functions": [
+        "diabetes_prediction"
+      ],
+      "predicted_response": "{\"function\": \"diabetes_prediction\", \"weight\": 150, \"height\": 68, \"activity_level\": \"lightly active\"}",
+      "parsed": {
+        "function": "diabetes_prediction",
+        "weight": 150,
+        "height": 68,
+        "activity_level": "lightly active"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_62",
+      "question": "Analyze the DNA sequence 'AGTCGATCGAACGTACGTACG' for any potential substitution mutations based on a reference sequence 'AGTCCATCGAACGTACGTACG'.",
+      "expected_functions": [
+        "analyze_dna_sequence"
+      ],
+      "predicted_response": "{\"function\": \"analyze_dna_sequence\", \"sequence\": \"AGTCGATCGAACGTACGTACG\", \"reference_sequence\": \"AGTCCATCGAACGTACGTACG\", \"mutation_type\": \"substitution\"}",
+      "parsed": {
+        "function": "analyze_dna_sequence",
+        "sequence": "AGTCGATCGAACGTACGTACG",
+        "reference_sequence": "AGTCCATCGAACGTACGTACG",
+        "mutation_type": "substitution"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_63",
+      "question": "Find out how genetically similar a human and a chimp are in percentage.",
+      "expected_functions": [
+        "genetics.calculate_similarity"
+      ],
+      "predicted_response": "{\"function\": \"genetics.calculate_similarity\", \"species1\": \"human\", \"species2\": \"chimp\", \"format\": \"percentage\"}",
+      "parsed": {
+        "function": "genetics.calculate_similarity",
+        "species1": "human",
+        "species2": "chimp",
+        "format": "percentage"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_64",
+      "question": "What is the genotype frequency of AA genotype in a population, given that allele frequency of A is 0.3?",
+      "expected_functions": [
+        "calculate_genotype_frequency"
+      ],
+      "predicted_response": "{\"function\": \"calculate_genotype_frequency\", \"allele_frequency\": 0.3, \"genotype\": \"AA\"}",
+      "parsed": {
+        "function": "calculate_genotype_frequency",
+        "allele_frequency": 0.3,
+        "genotype": "AA"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_65",
+      "question": "Calculate the Population Density for Brazil in 2022 if the population is 213 million and the land area is 8.5 million square kilometers.",
+      "expected_functions": [
+        "calculate_density"
+      ],
+      "predicted_response": "{\"function\": \"calculate_density\", \"country\": \"Brazil\", \"year\": \"2022\", \"population\": 213, \"land_area\": 8500}",
+      "parsed": {
+        "function": "calculate_density",
+        "country": "Brazil",
+        "year": "2022",
+        "population": 213,
+        "land_area": 8500
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_66",
+      "question": "Get me data on average precipitation in the Amazon rainforest for the last six months.",
+      "expected_functions": [
+        "ecology_data.precipitation_stats"
+      ],
+      "predicted_response": "{\"function\": \"ecology_data.precipitation_stats\", \"location\": \"Amazon rainforest\", \"time_frame\": \"last six months\"}",
+      "parsed": {
+        "function": "ecology_data.precipitation_stats",
+        "location": "Amazon rainforest",
+        "time_frame": "last six months"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_67",
+      "question": "Identify a small green bird in forest.",
+      "expected_functions": [
+        "identify_bird"
+      ],
+      "predicted_response": "{\"function\": \"identify_bird\", \"param1\": \"green\", \"param2\": \"forest\", \"param3\": \"small\"}",
+      "parsed": {
+        "function": "identify_bird",
+        "param1": "green",
+        "param2": "forest",
+        "param3": "small"
+      },
+      "correct": false,
+      "message": "Missing required params: ['color', 'habitat']"
+    },
+    {
+      "id": "simple_68",
+      "question": "Predict the growth of forest in Yellowstone National Park for the next 5 years including human impact.",
+      "expected_functions": [
+        "forest_growth_forecast"
+      ],
+      "predicted_response": "{\"function\": \"forest_growth_forecast\", \"location\": \"Yellowstone National Park\", \"years\": 5, \"include_human_impact\": true}",
+      "parsed": {
+        "function": "forest_growth_forecast",
+        "location": "Yellowstone National Park",
+        "years": 5,
+        "include_human_impact": true
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_69",
+      "question": "Find out the population and species of turtles in Mississippi river in 2020.",
+      "expected_functions": [
+        "ecology.get_turtle_population"
+      ],
+      "predicted_response": "{\"function\": \"ecology.get_turtle_population\", \"location\": \"Mississippi river\", \"year\": 2020, \"species\": true}",
+      "parsed": {
+        "function": "ecology.get_turtle_population",
+        "location": "Mississippi river",
+        "year": 2020,
+        "species": true
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_70",
+      "question": "What is the carbon footprint of a gas-powered vehicle driving 1500 miles in a year?",
+      "expected_functions": [
+        "calculate_vehicle_emission"
+      ],
+      "predicted_response": "{\"function\": \"calculate_vehicle_emission\", \"vehicle_type\": \"gas\", \"miles_driven\": 1500, \"emission_factor\": 355.48}",
+      "parsed": {
+        "function": "calculate_vehicle_emission",
+        "vehicle_type": "gas",
+        "miles_driven": 1500,
+        "emission_factor": 355.48
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_71",
+      "question": "Generate a DNA sequence with 100 bases including more G (Guanine) and C (Cytosine).",
+      "expected_functions": [
+        "generate_DNA_sequence"
+      ],
+      "predicted_response": "{\"function\": \"generate_DNA_sequence\", \"param1\": 100, \"param2\": [\"G\", \"C\"]}",
+      "parsed": {
+        "function": "generate_DNA_sequence",
+        "param1": 100,
+        "param2": [
+          "G",
+          "C"
+        ]
+      },
+      "correct": false,
+      "message": "Missing required params: ['length', 'preferences']"
+    },
+    {
+      "id": "simple_72",
+      "question": "Calculate the expected evolutionary fitness of a creature, with trait A contributing to 40% of the fitness and trait B contributing 60%, if trait A has a value of 0.8 and trait B a value of 0.7.",
+      "expected_functions": [
+        "calculate_fitness"
+      ],
+      "predicted_response": "{\"function\": \"calculate_fitness\", \"trait_values\": [0.8, 0.7], \"trait_contributions\": [0.4, 0.6]}</|im_end|>",
+      "parsed": {
+        "function": "calculate_fitness",
+        "trait_values": [
+          0.8,
+          0.7
+        ],
+        "trait_contributions": [
+          0.4,
+          0.6
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_73",
+      "question": "What's the projected population growth in United States in the next 20 years?",
+      "expected_functions": [
+        "population_projections"
+      ],
+      "predicted_response": "{\"function\": \"population_projections\", \"country\": \"United States\", \"years\": 20, \"growth_rate\": 1.2}",
+      "parsed": {
+        "function": "population_projections",
+        "country": "United States",
+        "years": 20,
+        "growth_rate": 1.2
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_74",
+      "question": "Calculate the evolution rate of a bacteria population, start with 5000 bacteria, each bacteria duplicates every hour for 6 hours.",
+      "expected_functions": [
+        "calculate_bacteria_evolution_rate"
+      ],
+      "predicted_response": "{\"function\": \"calculate_bacteria_evolution_rate\", \"start_population\": 5000, \"duplication_frequency\": 1, \"duration\": 6, \"generation_time\": 120}",
+      "parsed": {
+        "function": "calculate_bacteria_evolution_rate",
+        "start_population": 5000,
+        "duplication_frequency": 1,
+        "duration": 6,
+        "generation_time": 120
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_75",
+      "question": "Estimate the population size of elephants of 35000 in the next 5 years given the current growth rate of 0.015.",
+      "expected_functions": [
+        "elephant_population_estimate"
+      ],
+      "predicted_response": "{\"function\": \"elephant_population_estimate\", \"current_population\": 35000, \"growth_rate\": 0.015, \"years\": 5}",
+      "parsed": {
+        "function": "elephant_population_estimate",
+        "current_population": 35000,
+        "growth_rate": 0.015,
+        "years": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_76",
+      "question": "Get me the predictions of the evolutionary rate for Homo Sapiens for next 50 years using Darwin model",
+      "expected_functions": [
+        "prediction.evolution"
+      ],
+      "predicted_response": "{\"function\": \"prediction.evolution\", \"species\": \"Homo Sapiens\", \"years\": 50, \"model\": \"Darwin\"}",
+      "parsed": {
+        "function": "prediction.evolution",
+        "species": "Homo Sapiens",
+        "years": 50,
+        "model": "Darwin"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_77",
+      "question": "Find a nearby restaurant that serves vegan food in Los Angeles.",
+      "expected_functions": [
+        "restaurant.find_nearby"
+      ],
+      "predicted_response": "{\"function\": \"restaurant.find_nearby\", \"location\": \"Los Angeles\", \"dietary_preference\": [\"vegan\"]}",
+      "parsed": {
+        "function": "restaurant.find_nearby",
+        "location": "Los Angeles",
+        "dietary_preference": [
+          "vegan"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_78",
+      "question": "Get the average temperature in Austin for the next 3 days in Celsius.",
+      "expected_functions": [
+        "average_temperature"
+      ],
+      "predicted_response": "{\"function\": \"average_temperature\", \"location\": \"Austin\", \"days\": 3, \"temp_unit\": \"Celsius\"}",
+      "parsed": {
+        "function": "average_temperature",
+        "location": "Austin",
+        "days": 3,
+        "temp_unit": "Celsius"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_79",
+      "question": "Create a histogram for student scores with the following data: 85, 90, 88, 92, 86, 89, 91 and set bin range to 5.",
+      "expected_functions": [
+        "create_histogram"
+      ],
+      "predicted_response": "{\"function\": \"create_histogram\", \"data\": [85, 90, 88, 92, 86, 89, 91], \"bins\": 5}",
+      "parsed": {
+        "function": "create_histogram",
+        "data": [
+          85,
+          90,
+          88,
+          92,
+          86,
+          89,
+          91
+        ],
+        "bins": 5
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_80",
+      "question": "I want to find 5 restaurants nearby my location, Manhattan, offering Thai food and a vegan menu.",
+      "expected_functions": [
+        "find_restaurants"
+      ],
+      "predicted_response": "{\"function\": \"find_restaurants\", \"location\": \"Manhattan\", \"food_type\": \"Thai\", \"number\": 5, \"dietary_requirements\": [\"vegan\"]}",
+      "parsed": {
+        "function": "find_restaurants",
+        "location": "Manhattan",
+        "food_type": "Thai",
+        "number": 5,
+        "dietary_requirements": [
+          "vegan"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_81",
+      "question": "Find the fastest route from San Francisco to Los Angeles with toll roads avoided.",
+      "expected_functions": [
+        "map_routing.fastest_route"
+      ],
+      "predicted_response": "{\"function\": \"map_routing.fastest_route\", \"start_location\": \"San Francisco\", \"end_location\": \"Los Angeles\", \"avoid_tolls\": true}",
+      "parsed": {
+        "function": "map_routing.fastest_route",
+        "start_location": "San Francisco",
+        "end_location": "Los Angeles",
+        "avoid_tolls": true
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_82",
+      "question": "Calculate the average of list of integers [12, 15, 18, 20, 21, 26, 30].",
+      "expected_functions": [
+        "calculate_average"
+      ],
+      "predicted_response": "{\"function\": \"calculate_average\", \"numbers\": [12, 15, 18, 20, 21, 26, 30]}",
+      "parsed": {
+        "function": "calculate_average",
+        "numbers": [
+          12,
+          15,
+          18,
+          20,
+          21,
+          26,
+          30
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_83",
+      "question": "Calculate the distance between two GPS coordinates (33.4484 N, 112.0740 W) and (34.0522 N, 118.2437 W) in miles.",
+      "expected_functions": [
+        "calculate_distance"
+      ],
+      "predicted_response": "{\"function\": \"calculate_distance\", \"coord1\": (33.4484, -112.074), \"coord2\": (34.0522, -118.2437), \"unit\": \"miles\"}",
+      "parsed": {},
+      "correct": false,
+      "message": "No valid JSON found"
+    },
+    {
+      "id": "simple_84",
+      "question": "Calculate the Body Mass Index (BMI) of a person with a weight of 85 kilograms and height of 180 cm.",
+      "expected_functions": [
+        "calculate_bmi"
+      ],
+      "predicted_response": "{\"function\": \"calculate_bmi\", \"weight\": 85, \"height\": 180}",
+      "parsed": {
+        "function": "calculate_bmi",
+        "weight": 85,
+        "height": 180
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_85",
+      "question": "What's the approximate distance between Boston, MA, and Washington, D.C. in mile?",
+      "expected_functions": [
+        "geo_distance.calculate"
+      ],
+      "predicted_response": "{\"function\": \"geo_distance.calculate\", \"start_location\": \"Boston, MA\", \"end_location\": \"Washington, D.C.\", \"units\": \"miles\"}",
+      "parsed": {
+        "function": "geo_distance.calculate",
+        "start_location": "Boston, MA",
+        "end_location": "Washington, D.C.",
+        "units": "miles"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_86",
+      "question": "Find the shortest distance between two cities, New York and Los Angeles, through the train and you can transfer.",
+      "expected_functions": [
+        "city_distance.find_shortest"
+      ],
+      "predicted_response": "{\"function\": \"city_distance.find_shortest\", \"start_city\": \"New York\", \"end_city\": \"Los Angeles\", \"transportation\": \"train\", \"allow_transfer\": true}",
+      "parsed": {
+        "function": "city_distance.find_shortest",
+        "start_city": "New York",
+        "end_city": "Los Angeles",
+        "transportation": "train",
+        "allow_transfer": true
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_87",
+      "question": "Sort the list [5, 3, 4, 1, 2] in ascending order.",
+      "expected_functions": [
+        "array_sort"
+      ],
+      "predicted_response": "{\"function\": \"array_sort\", \"list\": [5, 3, 4, 1, 2], \"order\": \"asc\"}",
+      "parsed": {
+        "function": "array_sort",
+        "list": [
+          5,
+          3,
+          4,
+          1,
+          2
+        ],
+        "order": "asc"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_88",
+      "question": "Calculate the BMI (Body Mass Index) of a person who weighs 70kg and is 1.75m tall.",
+      "expected_functions": [
+        "calculate_BMI"
+      ],
+      "predicted_response": "{\"function\": \"calculate_BMI\", \"weight_kg\": 70, \"height_m\": 1.75}",
+      "parsed": {
+        "function": "calculate_BMI",
+        "weight_kg": 70,
+        "height_m": 1.75
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_89",
+      "question": "Fetch all records for students studying Science in 'Bluebird High School' from the StudentDB.",
+      "expected_functions": [
+        "db_fetch_records"
+      ],
+      "predicted_response": "{\"function\": \"db_fetch_records\", \"database_name\": \"StudentDB\", \"table_name\": \"students\", \"conditions\": {\"major\": \"Science\", \"school\": \"Bluebird High School\"}, \"fetch_limit\": 0}",
+      "parsed": {
+        "function": "db_fetch_records",
+        "database_name": "StudentDB",
+        "table_name": "students",
+        "conditions": {
+          "major": "Science",
+          "school": "Bluebird High School"
+        },
+        "fetch_limit": 0
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_90",
+      "question": "Retrieve Personal Info and Job History data of a specific employee whose ID is 345 in company 'ABC Ltd.'",
+      "expected_functions": [
+        "employee.fetch_data"
+      ],
+      "predicted_response": "{\"function\": \"employee.fetch_data\", \"company_name\": \"ABC Ltd.\", \"employee_id\": 345, \"data_field\": [\"Personal Info\", \"Job History\"]}",
+      "parsed": {
+        "function": "employee.fetch_data",
+        "company_name": "ABC Ltd.",
+        "employee_id": 345,
+        "data_field": [
+          "Personal Info",
+          "Job History"
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_91",
+      "question": "Get the highest rated sushi restaurant in Boston, that opens on Sundays.",
+      "expected_functions": [
+        "get_restaurant"
+      ],
+      "predicted_response": "{\"function\": \"get_restaurant\", \"cuisine\": \"sushi\", \"location\": \"Boston\", \"condition\": \"operates on Sundays\"}",
+      "parsed": {
+        "function": "get_restaurant",
+        "cuisine": "sushi",
+        "location": "Boston",
+        "condition": "operates on Sundays"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_92",
+      "question": "Find all movies starring Leonardo DiCaprio in the year 2010 from IMDB database.",
+      "expected_functions": [
+        "imdb.find_movies_by_actor"
+      ],
+      "predicted_response": "{\"function\": \"imdb.find_movies_by_actor\", \"param1\": \"Leonardo DiCaprio\", \"param2\": 2010}",
+      "parsed": {
+        "function": "imdb.find_movies_by_actor",
+        "param1": "Leonardo DiCaprio",
+        "param2": 2010
+      },
+      "correct": false,
+      "message": "Missing required params: ['actor_name', 'year']"
+    },
+    {
+      "id": "simple_93",
+      "question": "Fetch me the list of IMAX movie releases in theaters near LA for the next week.",
+      "expected_functions": [
+        "get_theater_movie_releases"
+      ],
+      "predicted_response": "{\"function\": \"get_theater_movie_releases\", \"location\": \"LA\", \"timeframe\": 7, \"format\": \"IMAX\"}",
+      "parsed": {
+        "function": "get_theater_movie_releases",
+        "location": "LA",
+        "timeframe": 7,
+        "format": "IMAX"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_94",
+      "question": "Update my customer information with user id 43523 'name':'John Doe', 'email':'johndoe@email.com' in the database.",
+      "expected_functions": [
+        "update_user_info"
+      ],
+      "predicted_response": "{\"function\": \"update_user_info\", \"user_id\": 43523, \"update_info\": {\"name\": \"John Doe\", \"email\": \"johndoe@email.com\"}, \"database\": \"database\"}",
+      "parsed": {
+        "function": "update_user_info",
+        "user_id": 43523,
+        "update_info": {
+          "name": "John Doe",
+          "email": "johndoe@email.com"
+        },
+        "database": "database"
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_95",
+      "question": "Calculate the area of a triangle with base 5m and height 3m.",
+      "expected_functions": [
+        "calc_area_triangle"
+      ],
+      "predicted_response": "{\"function\": \"calc_area_triangle\", \"base\": 5, \"height\": 3}",
+      "parsed": {
+        "function": "calc_area_triangle",
+        "base": 5,
+        "height": 3
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_96",
+      "question": "Find records in database in user table where age is greater than 25 and job is 'engineer'.",
+      "expected_functions": [
+        "database.query"
+      ],
+      "predicted_response": "{\"function\": \"database.query\", \"table\": \"user\", \"conditions\": [[\"age\", \">\", 25], [\"job\", \"=\", \"engineer\"]]}",
+      "parsed": {
+        "function": "database.query",
+        "table": "user",
+        "conditions": [
+          [
+            "age",
+            ">",
+            25
+          ],
+          [
+            "job",
+            "=",
+            "engineer"
+          ]
+        ]
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_97",
+      "question": "Calculate the factorial of the number 5",
+      "expected_functions": [
+        "math.factorial"
+      ],
+      "predicted_response": "{\"function\": \"math.factorial\", \"param1\": 5}",
+      "parsed": {
+        "function": "math.factorial",
+        "param1": 5
+      },
+      "correct": false,
+      "message": "Missing required params: ['number']"
+    },
+    {
+      "id": "simple_98",
+      "question": "What will be the angle between the hour and minute hands of a clock at 6:30 PM?",
+      "expected_functions": [
+        "calculate_clock_angle"
+      ],
+      "predicted_response": "{\"function\": \"calculate_clock_angle\", \"hours\": 18, \"minutes\": 30}",
+      "parsed": {
+        "function": "calculate_clock_angle",
+        "hours": 18,
+        "minutes": 30
+      },
+      "correct": true,
+      "message": "Correct function and parameters"
+    },
+    {
+      "id": "simple_99",
+      "question": "Plot a sine wave from 0 to 2 pi with a frequency of 5 Hz.",
+      "expected_functions": [
+        "plot_sine_wave"
+      ],
+      "predicted_response": "{\"function\": \"plot_sine_wave\", \"param1\": 0.0, \"param2\": 6.283185307179586, \"param3\": 5, \"param4\": 1, \"param5\": 0}",
+      "parsed": {
+        "function": "plot_sine_wave",
+        "param1": 0.0,
+        "param2": 6.283185307179586,
+        "param3": 5,
+        "param4": 1,
+        "param5": 0
+      },
+      "correct": false,
+      "message": "Missing required params: ['start_range', 'end_range', 'frequency']"
+    }
+  ],
+  "accuracy": 0.74,
+  "success_rate": 1.0
+}

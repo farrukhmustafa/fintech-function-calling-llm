@@ -1,0 +1,42 @@
+
+============================================================
+Benchmarking Inference Performance
+============================================================
+Endpoint: http://localhost:8000
+Total requests: 100
+Concurrent requests: 16
+Streaming: True
+============================================================
+
+
+============================================================
+BENCHMARK RESULTS
+============================================================
+Requests: 100/100 successful
+
+📊 Time-to-First-Token (TTFT):
+  Mean:    299.10 ms
+  Median:  212.72 ms
+  P95:     796.92 ms
+  P99:     799.78 ms
+  Min:     198.30 ms
+  Max:     799.81 ms
+
+⏱️  End-to-End Latency:
+  Mean:    1784.98 ms
+  Median:  1696.41 ms
+  P95:     2321.95 ms
+  P99:     2324.14 ms
+  Min:     1608.18 ms
+  Max:     2324.16 ms
+
+🚀 Throughput:
+  Tokens/sec: 227.95
+  Requests/sec: 43.03
+
+✅ Performance Targets:
+  TTFT < 500ms: ✓ (299.10 ms)
+  Latency < 2s: ✓ (1784.98 ms)
+============================================================
+
+✓ Results saved to benchmark_results_merged-qwen25-7b-finetuned_16concurrent.json
