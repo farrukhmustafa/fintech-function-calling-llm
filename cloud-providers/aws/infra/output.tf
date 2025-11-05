@@ -1,49 +1,49 @@
 # EKS Cluster Outputs
 output "cluster_id" {
   description = "EKS cluster ID"
-  value       = aws_eks_cluster.main.id
+  value       = module.eks.cluster_id
 }
 
 output "cluster_name" {
   description = "EKS cluster name"
-  value       = aws_eks_cluster.main.name
+  value       = module.eks.cluster_name
 }
 
 output "cluster_endpoint" {
   description = "Endpoint for EKS control plane"
-  value       = aws_eks_cluster.main.endpoint
+  value       = module.eks.cluster_endpoint
 }
 
 output "cluster_security_group_id" {
   description = "Security group ID attached to the EKS cluster"
-  value       = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
+  value       = module.eks.cluster_security_group_id
 }
 
 output "cluster_certificate_authority_data" {
   description = "Base64 encoded certificate data required to communicate with the cluster"
-  value       = aws_eks_cluster.main.certificate_authority[0].data
+  value       = module.eks.cluster_certificate_authority_data
   sensitive   = true
 }
 
 output "cluster_oidc_issuer_url" {
   description = "The URL on the EKS cluster OIDC Issuer"
-  value       = aws_eks_cluster.main.identity[0].oidc[0].issuer
+  value       = module.eks.cluster_oidc_issuer_url
 }
 
 # VPC Outputs
 output "vpc_id" {
   description = "The ID of the VPC"
-  value       = aws_vpc.main.id
+  value       = module.vpc.vpc_id
 }
 
 output "private_subnets" {
   description = "List of IDs of private subnets"
-  value       = aws_subnet.private[*].id
+  value       = module.vpc.private_subnets
 }
 
 output "public_subnets" {
   description = "List of IDs of public subnets"
-  value       = aws_subnet.public[*].id
+  value       = module.vpc.public_subnets
 }
 
 # EFS Outputs
@@ -58,20 +58,15 @@ output "efs_dns_name" {
 }
 
 # Node Group Outputs
-output "cpu_node_group_id" {
-  description = "CPU node group ID"
-  value       = aws_eks_node_group.cpu.id
-}
-
-output "gpu_node_group_id" {
-  description = "GPU node group ID"
-  value       = aws_eks_node_group.gpu.id
+output "eks_managed_node_groups" {
+  description = "Map of managed node groups"
+  value       = module.eks.eks_managed_node_groups
 }
 
 # kubectl Configuration
 output "configure_kubectl" {
   description = "Configure kubectl command"
-  value       = "aws eks update-kubeconfig --region ${var.aws_region} --name ${aws_eks_cluster.main.name}"
+  value       = "aws eks update-kubeconfig --region ${var.aws_region} --name ${module.eks.cluster_name}"
 }
 
 # Verification Commands

@@ -8,7 +8,7 @@ resource "kubernetes_namespace" "inference" {
       "library-solution" = "k8s-training"
     }
   }
-  depends_on = [aws_eks_cluster.main]
+  depends_on = [module.eks]
 }
 
 # vLLM Deployment for optimized inference

@@ -32,9 +32,15 @@ variable "vpc_cidr" {
 }
 
 variable "availability_zones" {
-  description = "Availability zones for EKS (need at least 2)"
+  description = "Availability zones for EKS (need at least 2). Leave empty to auto-detect."
   type        = list(string)
-  default     = ["us-east-1a", "us-east-1b"]
+  default     = []  # Auto-detect from region
+}
+
+variable "single_nat_gateway" {
+  description = "Use single NAT gateway (cost savings) vs one per AZ (HA)"
+  type        = bool
+  default     = true  # true for demo/dev, false for production
 }
 
 # Node Group Configuration - CPU
@@ -124,4 +130,23 @@ variable "enable_kuberay" {
   description = "Enable KubeRay operator for distributed training"
   type        = bool
   default     = false
+}
+
+# Advanced GPU Options
+variable "capacity_reservation_id" {
+  description = "Capacity Reservation ID for GPU instances (for reserved/capacity block)"
+  type        = string
+  default     = ""
+}
+
+variable "enable_efa_support" {
+  description = "Enable EFA (Elastic Fabric Adapter) for multi-GPU networking"
+  type        = bool
+  default     = false  # Set to true for p4d/p5 instances
+}
+
+variable "use_instance_store" {
+  description = "Configure instance store (NVMe) as RAID0 for temp storage"
+  type        = bool
+  default     = false  # Set to true for p4d/p5 with large NVMe drives
 }

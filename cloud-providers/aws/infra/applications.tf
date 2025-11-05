@@ -9,7 +9,7 @@ resource "kubernetes_namespace" "mlflow" {
       "library-solution" = "k8s-training"
     }
   }
-  depends_on = [aws_eks_cluster.main]
+  depends_on = [module.eks]
 }
 
 # PostgreSQL for MLflow backend (simple Deployment for demo, no PVC)

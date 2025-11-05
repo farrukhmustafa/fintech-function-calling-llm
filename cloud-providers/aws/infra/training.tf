@@ -12,7 +12,7 @@ resource "kubernetes_namespace" "kuberay" {
       "library-solution" = "k8s-training"
     }
   }
-  depends_on = [aws_eks_cluster.main]
+  depends_on = [module.eks]
 }
 
 # KubeRay Operator
@@ -26,7 +26,7 @@ resource "helm_release" "kuberay_operator" {
   namespace  = kubernetes_namespace.kuberay[0].metadata[0].name
 
   depends_on = [
-    aws_eks_cluster.main,
+    module.eks,
     helm_release.nvidia_device_plugin,
   ]
 }

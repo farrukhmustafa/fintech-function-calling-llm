@@ -2,6 +2,9 @@ locals {
   # Cluster name with environment suffix
   cluster_full_name = "${var.cluster_name}-${var.environment}"
 
+  # Availability zones (use from variable or auto-detect)
+  azs = length(var.availability_zones) > 0 ? var.availability_zones : slice(data.aws_availability_zones.available.names, 0, 2)
+
   # Common tags
   common_tags = merge(
     {
@@ -13,15 +16,11 @@ locals {
     var.additional_tags
   )
 
-  # Subnet CIDRs (split VPC into 4 subnets - 2 public, 2 private)
-  public_subnet_cidrs  = [cidrsubnet(var.vpc_cidr, 2, 0), cidrsubnet(var.vpc_cidr, 2, 1)]
-  private_subnet_cidrs = [cidrsubnet(var.vpc_cidr, 2, 2), cidrsubnet(var.vpc_cidr, 2, 3)]
-
-  # Node labels
+  # Node labels (compatible with existing Kubernetes manifests)
   cpu_node_labels = {
-    "node-type"         = "cpu"
-    "workload"          = "system"
-    "library-solution"  = "k8s-training" # Keep same label for K8s manifests compatibility
+    "node-type"        = "cpu"
+    "workload"         = "system"
+    "library-solution" = "k8s-training" # Keep same label for K8s manifests compatibility
   }
 
   gpu_node_labels = {
@@ -29,11 +28,4 @@ locals {
     "workload"         = "ml-training"
     "library-solution" = "k8s-training" # Keep same label for K8s manifests compatibility
   }
-
-  # GPU taints
-  gpu_taints = [{
-    key    = "nvidia.com/gpu"
-    value  = "true"
-    effect = "NO_SCHEDULE"
-  }]
 }
