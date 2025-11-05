@@ -2,41 +2,73 @@ terraform {
   required_version = ">= 1.5"
 
   required_providers {
-    nebius = {
-      source = "terraform-provider.storage.eu-north1.nebius.cloud/nebius/nebius"
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.23"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "<3.0.0"
+      version = "~> 2.11"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.0"
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
     }
   }
 }
 
-provider "nebius" {
-  domain = "api.eu.nebius.cloud:443"
-  # Token is automatically read from NEBIUS_IAM_TOKEN environment variable (recommended)
-  # Alternatively, uncomment below to use token from variable:
-  # token = var.iam_token
+provider "aws" {
+  region = var.aws_region
+
+  default_tags {
+    tags = {
+      Project     = "fintech-llm-function-calling"
+      ManagedBy   = "Terraform"
+      Environment = var.environment
+    }
+  }
 }
 
+# Configure Kubernetes provider to use EKS cluster
+provider "kubernetes" {
+  host                   = aws_eks_cluster.main.endpoint
+  cluster_ca_certificate = base64decode(aws_eks_cluster.main.certificate_authority[0].data)
+
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    args = [
+      "eks",
+      "get-token",
+      "--cluster-name",
+      aws_eks_cluster.main.name,
+      "--region",
+      var.aws_region
+    ]
+  }
+}
+
+# Configure Helm provider to use EKS cluster
 provider "helm" {
   kubernetes {
-    host                   = nebius_mk8s_v1_cluster.k8s-cluster.status.control_plane.endpoints.public_endpoint
-    cluster_ca_certificate = nebius_mk8s_v1_cluster.k8s-cluster.status.control_plane.auth.cluster_ca_certificate
-    token                  = var.iam_token
+    host                   = aws_eks_cluster.main.endpoint
+    cluster_ca_certificate = base64decode(aws_eks_cluster.main.certificate_authority[0].data)
+
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "aws"
+      args = [
+        "eks",
+        "get-token",
+        "--cluster-name",
+        aws_eks_cluster.main.name,
+        "--region",
+        var.aws_region
+      ]
+    }
   }
 }
-
-provider "kubernetes" {
-  host                   = nebius_mk8s_v1_cluster.k8s-cluster.status.control_plane.endpoints.public_endpoint
-  cluster_ca_certificate = nebius_mk8s_v1_cluster.k8s-cluster.status.control_plane.auth.cluster_ca_certificate
-  token                  = var.iam_token
-}
-

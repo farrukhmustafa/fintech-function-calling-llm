@@ -1,319 +1,127 @@
-# Global
-variable "tenant_id" {
-  description = "Tenant ID."
+# AWS Configuration
+variable "aws_region" {
+  description = "AWS region for all resources"
   type        = string
+  default     = "us-east-1"
 }
 
-variable "parent_id" {
-  description = "Project ID."
+variable "environment" {
+  description = "Environment name (dev, staging, prod)"
   type        = string
+  default     = "dev"
 }
 
-variable "subnet_id" {
-  description = "Subnet ID. If empty, a new subnet will be created."
+variable "cluster_name" {
+  description = "Name of the EKS cluster"
   type        = string
-  default     = ""
+  default     = "fintech-llm-cluster"
 }
 
-variable "region" {
-  description = "The current region."
-  type        = string
-}
-
-# K8s cluster
+# Kubernetes Configuration
 variable "k8s_version" {
-  description = "Kubernetes version to be used in the cluster. Leave null to use backend default (recommended), or choose 1.31 or above."
+  description = "Kubernetes version for EKS"
   type        = string
-  default     = null
+  default     = "1.28"
 }
 
-variable "etcd_cluster_size" {
-  description = "Size of etcd cluster."
-  type        = number
-  default     = 3
-}
-
-variable "enable_egress_gateway" {
-  description = "Enable Cilium Egress Gateway."
-  type        = bool
-  default     = false
-}
-
-# K8s filestore
-variable "enable_filestore" {
-  description = "Use Filestore."
-  type        = bool
-  default     = false
-}
-
-variable "filestore_disk_type" {
-  description = "Filestore disk type."
+# VPC Configuration
+variable "vpc_cidr" {
+  description = "CIDR block for VPC"
   type        = string
-  default     = "NETWORK_SSD"
+  default     = "10.0.0.0/16"
 }
 
-variable "filestore_disk_size" {
-  description = "Filestore disk size in bytes."
-  type        = number
-  default     = 1 * 1024 * 1024 * 1024 # 1 GiB
+variable "availability_zones" {
+  description = "Availability zones for EKS (need at least 2)"
+  type        = list(string)
+  default     = ["us-east-1a", "us-east-1b"]
 }
 
-variable "filestore_block_size" {
-  description = "Filestore block size in bytes."
-  type        = number
-  default     = 4096
-}
-
-# K8s access
-variable "ssh_user_name" {
-  description = "SSH username."
-  type        = string
-  default     = "ubuntu"
-}
-
-variable "ssh_public_key" {
-  description = "SSH Public Key to access the cluster nodes"
-  type = object({
-    key  = optional(string),
-    path = optional(string, "~/.ssh/id_rsa.pub")
-  })
-  default = {}
-  validation {
-    condition     = var.ssh_public_key.key != null || fileexists(var.ssh_public_key.path)
-    error_message = "SSH Public Key must be set by `key` or file `path` ${var.ssh_public_key.path}"
-  }
-}
-
-# K8s CPU node group
-variable "cpu_nodes_count" {
-  description = "Number of nodes in the CPU-only node group."
-  type        = number
-  default     = 3
-}
-
-variable "cpu_nodes_platform" {
-  description = "Platform for nodes in the CPU-only node group."
-  type        = string
-  default     = null
-}
-
-variable "cpu_nodes_preset" {
-  description = "CPU and RAM configuration for nodes in the CPU-only node group."
-  type        = string
-  default     = null
-}
-
-variable "cpu_disk_type" {
-  description = "Disk type for nodes in the CPU-only node group."
-  type        = string
-  default     = "NETWORK_SSD"
-}
-
-variable "cpu_disk_size" {
-  description = "Disk size (in GB) for nodes in the CPU-only node group."
-  type        = string
-  default     = "128"
-}
-
-# K8s GPU node group
-variable "gpu_nodes_count_per_group" {
-  description = "Number of nodes in the GPU node group."
-  type        = number
-  default     = 2
-}
-
-variable "gpu_node_groups" {
-  description = "Number of GPU node groups."
+# Node Group Configuration - CPU
+variable "cpu_nodes_desired" {
+  description = "Desired number of CPU nodes"
   type        = number
   default     = 1
 }
 
-variable "gpu_nodes_platform" {
-  description = "Platform for nodes in the GPU node group."
-  type        = string
-  default     = null
+variable "cpu_nodes_min" {
+  description = "Minimum number of CPU nodes"
+  type        = number
+  default     = 1
 }
 
-variable "gpu_nodes_driverfull_image" {
-  description = "Use driver full images for GPU node groups. Disables GPU-Operator."
-  type        = bool
-  default     = false
+variable "cpu_nodes_max" {
+  description = "Maximum number of CPU nodes"
+  type        = number
+  default     = 3
 }
 
-variable "gpu_nodes_preset" {
-  description = "Configuration for GPU amount, CPU, and RAM for nodes in the GPU node group."
-  type        = string
-  default     = null
+variable "cpu_instance_types" {
+  description = "Instance types for CPU nodes"
+  type        = list(string)
+  default     = ["t3.xlarge"] # 4 vCPU, 16GB RAM
 }
 
-variable "gpu_disk_type" {
-  description = "Disk type for nodes in the GPU node group."
-  type        = string
-  default     = "NETWORK_SSD"
+# Node Group Configuration - GPU
+variable "gpu_nodes_desired" {
+  description = "Desired number of GPU nodes"
+  type        = number
+  default     = 1
+}
+
+variable "gpu_nodes_min" {
+  description = "Minimum number of GPU nodes"
+  type        = number
+  default     = 0
+}
+
+variable "gpu_nodes_max" {
+  description = "Maximum number of GPU nodes"
+  type        = number
+  default     = 2
+}
+
+variable "gpu_instance_types" {
+  description = "Instance types for GPU nodes"
+  type        = list(string)
+  default     = ["p3.2xlarge"] # 1x V100 GPU, 8 vCPU, 61GB RAM
+  # Options:
+  # p3.2xlarge   - 1x V100 (16GB VRAM) - ~$3/hr
+  # p3.8xlarge   - 4x V100 (64GB VRAM) - ~$12/hr
+  # p4d.24xlarge - 8x A100 (320GB VRAM) - ~$32/hr
+  # p5.48xlarge  - 8x H100 (640GB VRAM) - ~$98/hr (if available)
 }
 
 variable "gpu_disk_size" {
-  description = "Disk size (in GB) for nodes in the GPU node group."
-  type        = string
-  default     = "1023"
-}
-
-variable "enable_gpu_cluster" {
-  description = "Enable GPU cluster for InfiniBand."
-  type        = bool
-  default     = true
-}
-
-variable "infiniband_fabric" {
-  description = "Infiniband's fabric name."
-  type        = string
-  default     = null
-}
-
-variable "gpu_nodes_assign_public_ip" {
-  description = "Assign public IP address to GPU nodes to make them directly accessible from the external internet."
-  type        = bool
-  default     = false
-}
-
-variable "enable_k8s_node_group_sa" {
-  description = "Enable K8S Node Group Service Account"
-  type        = bool
-  default     = true
-}
-
-variable "mig_parted_config" {
-  description = "MIG partition config to be assigned to node group label"
-  type        = string
-  default     = null
-
-  validation {
-    condition     = var.mig_parted_config == null || contains(local.valid_mig_parted_configs[local.gpu_nodes_platform], coalesce(var.mig_parted_config, "null"))
-    error_message = "Invalid MIG config '${coalesce(var.mig_parted_config, "null")}' for the selected GPU platform '${local.gpu_nodes_platform}'. Must be one of ${join(", ", local.valid_mig_parted_configs[local.gpu_nodes_platform])} or left unset."
-  }
-}
-
-# Observability
-variable "enable_loki" {
-  description = "Enable Loki for logs aggregation."
-  type        = bool
-  default     = true
-}
-
-variable "enable_prometheus" {
-  description = "Enable Prometheus for metrics collection."
-  type        = bool
-  default     = true
-}
-
-variable "loki_access_key_id" {
-  type    = string
-  default = null
-}
-
-variable "loki_secret_key" {
-  type    = string
-  default = null
-}
-
-variable "loki_custom_replication_factor" {
-  description = "By default there will be one replica of Loki for each 20 nodes in the cluster. Configure this variable if you want to set number of replicas manually"
+  description = "Disk size for GPU nodes in GB"
   type        = number
-  default     = null
+  default     = 200
 }
 
-# Helm
-variable "iam_token" {
-  description = "Token for Helm provider authentication. (source environment.sh)"
-  type        = string
-  sensitive   = true
-}
-
-variable "test_mode" {
-  description = "Switch between real usage and testing"
+# EFS Configuration
+variable "enable_efs" {
+  description = "Enable EFS for shared storage"
   type        = bool
-  default     = false
+  default     = true
 }
 
+# Tags
+variable "additional_tags" {
+  description = "Additional tags for all resources"
+  type        = map(string)
+  default     = {}
+}
+
+# SSH Access
+variable "ssh_key_name" {
+  description = "Name of EC2 key pair for SSH access to nodes"
+  type        = string
+  default     = ""
+}
+
+# KubeRay for distributed training
 variable "enable_kuberay" {
-  description = "Enable kuberay"
+  description = "Enable KubeRay operator for distributed training"
   type        = bool
   default     = false
-}
-
-variable "kuberay_cpu_worker_image" {
-  description = "Docker image to use for CPU worker pods"
-  default     = null
-}
-
-variable "kuberay_min_cpu_replicas" {
-  description = "Minimum amount of kuberay CPU worker pods"
-  type        = number
-  default     = 0
-}
-
-variable "kuberay_max_cpu_replicas" {
-  description = "Maximum amount of kuberay CPU worker pods"
-  type        = number
-  default     = 0
-}
-
-variable "kuberay_cpu_resources" {
-  description = "Resources given to each CPU worker pod"
-  type = object({
-    cpus   = number
-    memory = number
-  })
-  default = null
-}
-
-variable "kuberay_gpu_worker_image" {
-  description = "Docker image to use for GPU worker pods"
-  default     = null
-}
-
-variable "kuberay_min_gpu_replicas" {
-  description = "Minimum amount of kuberay GPU worker pods"
-  type        = number
-  default     = 0
-}
-
-variable "kuberay_max_gpu_replicas" {
-  description = "Maximum amount of kuberay GPU worker pods"
-  type        = number
-  default     = 0
-}
-
-variable "kuberay_gpu_resources" {
-  description = "Resources given to each GPU worker pod"
-  type = object({
-    cpus   = number
-    gpus   = number
-    memory = number
-  })
-  default = null
-}
-
-variable "mig_strategy" {
-  description = "MIG strategy for GPU operator"
-  type        = string
-  default     = null
-}
-
-variable "cpu_nodes_preemptible" {
-  description = "Whether the cpu nodes should be preemptible"
-  type        = bool
-  default     = false
-}
-
-variable "gpu_nodes_preemptible" {
-  description = "Use preemptible VMs for GPU nodes"
-  type        = bool
-  default     = false
-}
-
-variable "gpu_health_checker" {
-  description = "Enable Nebius GPU Health Checker"
-  type        = bool
-  default     = true
 }

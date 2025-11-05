@@ -1,119 +1,111 @@
-# Nebius Terraform Variables Example
+# AWS EKS Configuration Example
 # Copy this file to terraform.tfvars and fill in your values
 
 # ============================================================================
-# REQUIRED: Your Nebius Credentials
+# AWS Configuration
 # ============================================================================
-# Get these from Nebius console:
-# - Tenant ID: Organization settings → ID (format: tenant-xxxxx)
-# - Project ID: Current project → ID (format: project-xxxxx)
-# - Region: Usually eu-north1
-
-# These are set via environment variables - see environment.sh
-# tenant_id    = "tenant-xxxxx"
-# project_id   = "project-xxxxx"
-# region       = "eu-north1"
+aws_region  = "us-east-1"  # Change to your preferred region
+environment = "dev"        # dev, staging, or prod
 
 # ============================================================================
-# REQUIRED: SSH Access
+# EKS Cluster Configuration
 # ============================================================================
-# Add your SSH public key for node access
-# Generate with: ssh-keygen -t rsa -b 4096
-ssh_public_key = {
-  key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC... your-email@example.com"
-}
-
-ssh_user_name = "ubuntu"
+cluster_name = "fintech-llm-cluster"
+k8s_version  = "1.28"
 
 # ============================================================================
-# Node Configuration
+# VPC Configuration
 # ============================================================================
+vpc_cidr = "10.0.0.0/16"
 
-# CPU nodes (for system workloads like MLflow, PostgreSQL)
-cpu_nodes_count = 1
-cpu_nodes_preset = "4vcpu-16gb"
-cpu_nodes_platform = "cpu-d3"
-cpu_nodes_preemptible = false
+# Must have at least 2 AZs for EKS
+availability_zones = ["us-east-1a", "us-east-1b"]
 
-# GPU nodes (for training and inference)
-gpu_nodes_count_per_group = 1  # 1x H100 for demo
-gpu_nodes_preset = "1gpu-16vcpu-200gb"  # H100 80GB
-gpu_nodes_platform = "gpu-h100-sxm"
-gpu_nodes_preemptible = false
+# ============================================================================
+# CPU Node Configuration
+# ============================================================================
+cpu_nodes_desired = 1
+cpu_nodes_min     = 1
+cpu_nodes_max     = 3
 
-# GPU cluster (only needed for multi-GPU setups)
-enable_gpu_cluster = false  # Set to true if using multiple GPUs
-infiniband_fabric = "fabric-2"
+# Instance types for CPU nodes
+cpu_instance_types = ["t3.xlarge"]  # 4 vCPU, 16GB RAM
+
+# ============================================================================
+# GPU Node Configuration
+# ============================================================================
+gpu_nodes_desired = 1
+gpu_nodes_min     = 0  # Can scale to 0 when not training
+gpu_nodes_max     = 2
+
+# GPU Instance Types (choose based on your needs and budget):
+# - p3.2xlarge:   1x V100 (16GB VRAM),  8 vCPU,  61GB RAM  - ~$3/hr
+# - p3.8xlarge:   4x V100 (64GB VRAM),  32 vCPU, 244GB RAM - ~$12/hr
+# - p4d.24xlarge: 8x A100 (320GB VRAM), 96 vCPU, 1152GB RAM - ~$32/hr
+# - p5.48xlarge:  8x H100 (640GB VRAM), 192 vCPU, 2048GB RAM - ~$98/hr (limited availability)
+
+gpu_instance_types = ["p3.2xlarge"]  # Start with single V100 for demo
+
+gpu_disk_size = 200  # GB
 
 # ============================================================================
 # Storage Configuration
 # ============================================================================
-
-# Filestore for shared data (50GB for demo, increase for production)
-enable_filestore = true
-filestore_disk_size = 50 * 1024 * 1024 * 1024  # 50GB
-filestore_block_size = 4096
+enable_efs = true  # Enable EFS for shared storage (models, datasets)
 
 # ============================================================================
-# Kubernetes Configuration
+# SSH Access (Optional)
 # ============================================================================
-
-# Kubernetes version
-k8s_version = "1.28"
-
-# Control plane
-etcd_cluster_size = 1  # Use 3 for production HA
-
-# Network
-enable_egress_gateway = false  # Set to true if you need egress filtering
+# If you want SSH access to nodes, specify your EC2 key pair name
+# ssh_key_name = "my-ec2-keypair"
 
 # ============================================================================
-# Optional Features
+# Tags (Optional)
 # ============================================================================
-
-# IAM Service Account (requires additional permissions)
-enable_k8s_node_group_sa = false
-
-# Monitoring and Logging
-enable_prometheus = true
-enable_loki = true
-
-# KubeRay for distributed training
-enable_kuberay = false
-
-# ============================================================================
-# Advanced GPU Settings (usually don't need to change)
-# ============================================================================
-
-# GPU health checker
-gpu_health_checker = true
-
-# MIG (Multi-Instance GPU) - not needed for single H100
-mig_strategy = "none"
-
-# GPU driver image
-gpu_nodes_driverfull_image = ""  # Leave empty to use default
-
-# ============================================================================
-# Optional: Custom Network
-# ============================================================================
-# If you have an existing VPC subnet, specify it here
-# Otherwise, leave empty to create a new one
-# subnet_id = ""
+additional_tags = {
+  Owner       = "your-name"
+  CostCenter  = "ml-engineering"
+  Project     = "llm-function-calling"
+}
 
 # ============================================================================
 # Example Production Configuration
 # ============================================================================
-# For production with multiple GPUs and HA:
+# For production with high availability and more GPUs:
 #
-# cpu_nodes_count = 3
-# gpu_nodes_count_per_group = 4
-# enable_gpu_cluster = true
-# etcd_cluster_size = 3
-# enable_filestore = true
-# filestore_disk_size = 500 * 1024 * 1024 * 1024  # 500GB
-# enable_prometheus = true
-# enable_loki = true
-# enable_kuberay = true
-# gpu_health_checker = true
+# environment = "prod"
+# 
+# # CPU nodes
+# cpu_nodes_desired = 2
+# cpu_nodes_min     = 2
+# cpu_nodes_max     = 5
+# cpu_instance_types = ["t3.2xlarge"]  # 8 vCPU, 32GB RAM
+#
+# # GPU nodes
+# gpu_nodes_desired = 2
+# gpu_nodes_min     = 1
+# gpu_nodes_max     = 4
+# gpu_instance_types = ["p4d.24xlarge"]  # 8x A100
+#
+# # Use Spot instances for cost savings
+# # (requires additional configuration)
 
+# ============================================================================
+# Cost Optimization Tips
+# ============================================================================
+# 1. Use Spot Instances:
+#    - Can save up to 70% on GPU costs
+#    - Suitable for training workloads (can handle interruptions)
+#    - Configure with lifecycle: spot = true
+#
+# 2. Auto-scaling:
+#    - Set gpu_nodes_min = 0 to scale down completely when idle
+#    - Use Karpenter for advanced auto-scaling
+#
+# 3. Reserved Instances:
+#    - For predictable, long-running workloads
+#    - Can save up to 75% vs on-demand
+#
+# 4. Right-sizing:
+#    - Start with p3.2xlarge (1x V100) for testing
+#    - Scale up to p4d/p5 only when needed

@@ -1,140 +1,198 @@
-resource "nebius_mk8s_v1_cluster" "k8s-cluster" {
-  parent_id = var.parent_id
-  name      = join("-", ["k8s-training", local.release-suffix])
-  control_plane = {
-    endpoints = {
-      public_endpoint = {}
-    }
-    etcd_cluster_size = var.etcd_cluster_size
-    # Use created subnet if subnet_id not provided, otherwise use provided one
-    subnet_id = var.subnet_id != "" ? var.subnet_id : nebius_vpc_v1_subnet.training_subnet.id
-    version   = var.k8s_version
+# EKS Cluster IAM Role
+resource "aws_iam_role" "cluster" {
+  name = "${local.cluster_full_name}-cluster-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "eks.amazonaws.com"
+      }
+    }]
+  })
+
+  tags = local.common_tags
+}
+
+resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.cluster.name
+}
+
+resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSVPCResourceController" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  role       = aws_iam_role.cluster.name
+}
+
+# EKS Cluster
+resource "aws_eks_cluster" "main" {
+  name     = local.cluster_full_name
+  role_arn = aws_iam_role.cluster.arn
+  version  = var.k8s_version
+
+  vpc_config {
+    subnet_ids              = concat(aws_subnet.private[*].id, aws_subnet.public[*].id)
+    endpoint_private_access = true
+    endpoint_public_access  = true
   }
-  
-  # Configure Kubernetes network with smaller CIDR for demo
-  # Use /24 prefix length for services (256 IPs) instead of default /16
-  # This allows Nebius to auto-allocate a smaller CIDR from available pool
-  kube_network = {
-    service_cidrs = ["/24"]  # Use prefix length - Nebius will auto-allocate
-  }
+
+  tags = local.common_tags
+
+  depends_on = [
+    aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.cluster_AmazonEKSVPCResourceController,
+  ]
 }
 
-data "nebius_iam_v1_group" "editors" {
-  count     = var.enable_k8s_node_group_sa ? 1 : 0
-  name      = "editors"
-  parent_id = var.tenant_id
+# Node IAM Role
+resource "aws_iam_role" "node" {
+  name = "${local.cluster_full_name}-node-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+  })
+
+  tags = local.common_tags
 }
 
-resource "nebius_iam_v1_service_account" "k8s_node_group_sa" {
-  count     = var.enable_k8s_node_group_sa ? 1 : 0
-  parent_id = var.parent_id
-  name      = join("-", ["k8s_node_group_sa", local.release-suffix])
+resource "aws_iam_role_policy_attachment" "node_AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.node.name
 }
 
-resource "nebius_iam_v1_group_membership" "k8s_node_group_sa-admin" {
-  count     = var.enable_k8s_node_group_sa ? 1 : 0
-  parent_id = data.nebius_iam_v1_group.editors[0].id
-  member_id = nebius_iam_v1_service_account.k8s_node_group_sa[count.index].id
+resource "aws_iam_role_policy_attachment" "node_AmazonEKS_CNI_Policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.node.name
+}
+
+resource "aws_iam_role_policy_attachment" "node_AmazonEC2ContainerRegistryReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.node.name
+}
+
+resource "aws_iam_role_policy_attachment" "node_AmazonSSMManagedInstanceCore" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  role       = aws_iam_role.node.name
 }
 
 ################
 # CPU NODE GROUP
 ################
-resource "nebius_mk8s_v1_node_group" "cpu-only" {
-  fixed_node_count = var.cpu_nodes_count
-  parent_id        = nebius_mk8s_v1_cluster.k8s-cluster.id
-  name             = join("-", ["k8s-ng-cpu", local.release-suffix])
-  labels = {
-    "library-solution" = "k8s-training"
+resource "aws_eks_node_group" "cpu" {
+  cluster_name    = aws_eks_cluster.main.name
+  node_group_name = "${local.cluster_full_name}-cpu-nodes"
+  node_role_arn   = aws_iam_role.node.arn
+  subnet_ids      = aws_subnet.private[*].id
+  instance_types  = var.cpu_instance_types
+
+  scaling_config {
+    desired_size = var.cpu_nodes_desired
+    max_size     = var.cpu_nodes_max
+    min_size     = var.cpu_nodes_min
   }
-  version = var.k8s_version
-  template = {
-    boot_disk = {
-      size_gibibytes = var.cpu_disk_size
-      type           = var.cpu_disk_type
-    }
 
-    service_account_id = var.enable_k8s_node_group_sa ? nebius_iam_v1_service_account.k8s_node_group_sa[0].id : null
+  update_config {
+    max_unavailable = 1
+  }
 
-    network_interfaces = [
-      {
-        public_ip_address = {}
-        subnet_id = var.subnet_id != "" ? var.subnet_id : nebius_vpc_v1_subnet.training_subnet.id
-      }
-    ]
-    resources = {
-      platform = local.cpu_nodes_platform
-      preset   = local.cpu_nodes_preset
-    }
-    preemptible = var.cpu_nodes_preemptible ? {
-      on_preemption = "STOP"
-      priority      = 1
-    } : null
-    filesystems = var.enable_filestore ? [
-      {
-        attach_mode         = "READ_WRITE"
-        mount_tag           = "data"
-        existing_filesystem = nebius_compute_v1_filesystem.shared-filesystem[0]
-      }
-    ] : null
-    underlay_required = false
-    metadata = {
-      ssh-keys = "${var.ssh_user_name}:${local.ssh_public_key}"
+  labels = local.cpu_node_labels
+
+  # SSH access (optional)
+  dynamic "remote_access" {
+    for_each = var.ssh_key_name != "" ? [1] : []
+    content {
+      ec2_ssh_key = var.ssh_key_name
     }
   }
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${local.cluster_full_name}-cpu-node"
+    }
+  )
+
+  depends_on = [
+    aws_iam_role_policy_attachment.node_AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.node_AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.node_AmazonEC2ContainerRegistryReadOnly,
+  ]
 }
 
-#################
-# GPU NODE GROUPS
-#################
-resource "nebius_mk8s_v1_node_group" "gpu" {
-  count            = var.gpu_node_groups
-  fixed_node_count = var.gpu_nodes_count_per_group
-  parent_id        = nebius_mk8s_v1_cluster.k8s-cluster.id
-  name             = join("-", ["k8s-ng-gpu", local.release-suffix, count.index])
-  labels = {
-    "library-solution" = "k8s-training"
+################
+# GPU NODE GROUP
+################
+resource "aws_eks_node_group" "gpu" {
+  cluster_name    = aws_eks_cluster.main.name
+  node_group_name = "${local.cluster_full_name}-gpu-nodes"
+  node_role_arn   = aws_iam_role.node.arn
+  subnet_ids      = aws_subnet.private[*].id
+  instance_types  = var.gpu_instance_types
+
+  scaling_config {
+    desired_size = var.gpu_nodes_desired
+    max_size     = var.gpu_nodes_max
+    min_size     = var.gpu_nodes_min
   }
-  version = var.k8s_version
-  template = {
-    metadata = {
-      labels = var.mig_parted_config != null ? {
-        "nvidia.com/mig.config" = var.mig_parted_config
-      } : {}
-      ssh-keys = "${var.ssh_user_name}:${local.ssh_public_key}"
-    }
 
-    boot_disk = {
-      size_gibibytes = var.gpu_disk_size
-      type           = var.gpu_disk_type
-    }
-
-    service_account_id = var.enable_k8s_node_group_sa ? nebius_iam_v1_service_account.k8s_node_group_sa[0].id : null
-
-    network_interfaces = [
-      {
-        subnet_id = var.subnet_id != "" ? var.subnet_id : nebius_vpc_v1_subnet.training_subnet.id
-        public_ip_address = var.gpu_nodes_assign_public_ip ? {} : null
-      }
-    ]
-    resources = {
-      platform = local.gpu_nodes_platform
-      preset   = local.gpu_nodes_preset
-    }
-    preemptible = var.gpu_nodes_preemptible ? {
-      on_preemption = "STOP"
-      priority      = 1
-    } : null
-    filesystems = var.enable_filestore ? [
-      {
-        attach_mode         = "READ_WRITE"
-        mount_tag           = "data"
-        existing_filesystem = nebius_compute_v1_filesystem.shared-filesystem[0]
-      }
-    ] : null
-    gpu_cluster  = var.enable_gpu_cluster ? nebius_compute_v1_gpu_cluster.fabric_2[0] : null
-    gpu_settings = var.gpu_nodes_driverfull_image ? { drivers_preset = local.device_preset } : null
-
-    underlay_required = false
+  update_config {
+    max_unavailable = 1
   }
+
+  labels = local.gpu_node_labels
+
+  # GPU nodes should have taints to ensure only GPU workloads schedule on them
+  dynamic "taint" {
+    for_each = local.gpu_taints
+    content {
+      key    = taint.value.key
+      value  = taint.value.value
+      effect = taint.value.effect
+    }
+  }
+
+  disk_size = var.gpu_disk_size
+
+  # SSH access (optional)
+  dynamic "remote_access" {
+    for_each = var.ssh_key_name != "" ? [1] : []
+    content {
+      ec2_ssh_key = var.ssh_key_name
+    }
+  }
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${local.cluster_full_name}-gpu-node"
+    }
+  )
+
+  depends_on = [
+    aws_iam_role_policy_attachment.node_AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.node_AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.node_AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+# OIDC Provider for EKS (needed for IAM roles for service accounts)
+data "tls_certificate" "cluster" {
+  url = aws_eks_cluster.main.identity[0].oidc[0].issuer
+}
+
+resource "aws_iam_openid_connect_provider" "cluster" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.cluster.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.main.identity[0].oidc[0].issuer
+
+  tags = local.common_tags
 }
