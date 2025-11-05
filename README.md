@@ -29,16 +29,36 @@
 
 ## 🚀 Quick Start
 
-### 1. Deploy Infrastructure (~30 minutes)
+### 1. Choose Your Cloud Provider
 
+This platform supports multiple cloud providers:
+- **Nebius AI Cloud** - Optimized for H100 GPUs, EU-based
+- **AWS EKS** - Global availability, enterprise-ready
+
+See **[cloud-providers/README.md](cloud-providers/README.md)** for comparison and choice guidance.
+
+### 2. Deploy Infrastructure (~30 minutes)
+
+**For Nebius:**
 ```bash
-cd infra/
+cd cloud-providers/nebius/infra/
 
-# Configure your credentials
+# Configure credentials
 export NEBIUS_TENANT_ID='tenant-xxxxx'
 export NEBIUS_PROJECT_ID='project-xxxxx'
-export NEBIUS_REGION='eu-north1'
+source ./environment.sh
 
+# Deploy with Terraform
+terraform init
+terraform apply
+```
+
+**For AWS:**
+```bash
+cd cloud-providers/aws/infra/
+
+# Configure AWS credentials
+export AWS_REGION='us-east-1'
 # Deploy with Terraform
 terraform init
 terraform apply
@@ -46,7 +66,7 @@ terraform apply
 
 See **[documentation/1_INFRASTRUCTURE_DEPLOYMENT.md](documentation/1_INFRASTRUCTURE_DEPLOYMENT.md)** for detailed setup.
 
-### 2. Train & Evaluate Models (~4-6 hours)
+### 3. Train & Evaluate Models (~4-6 hours)
 
 ```bash
 # Train a model
@@ -119,20 +139,22 @@ See **[documentation/2_MODEL_TRAINING_EVALUATION.md](documentation/2_MODEL_TRAIN
 ## 📁 Repository Structure
 
 ```
-nebius/
+fintech-function-calling-llm/
+├── README.md                  # This file
 ├── documentation/              # 📖 Customer-facing documentation
 │   ├── README.md              # Documentation overview
-│   ├── 1_INFRASTRUCTURE_DEPLOYMENT.md  # Complete setup guide
-│   └── 2_MODEL_TRAINING_EVALUATION.md  # Training & evaluation guide
+│   ├── 1_INFRASTRUCTURE_DEPLOYMENT.md
+│   └── 2_MODEL_TRAINING_EVALUATION.md
 │
-├── infra/                     # 🏗️ Terraform infrastructure
-│   ├── main.tf               # Cluster and node groups
-│   ├── variables.tf          # Configuration variables
-│   ├── applications.tf       # MLflow deployment
-│   ├── inference.tf          # vLLM deployment
-│   └── ... (other .tf files)
+├── cloud-providers/           # 🌐 Cloud-specific infrastructure
+│   ├── README.md              # Cloud provider comparison
+│   ├── nebius/                # Nebius AI Cloud
+│   │   ├── infra/            # Terraform for Nebius
+│   │   └── modules/          # Nebius-specific modules
+│   └── aws/                   # Amazon Web Services
+│       └── infra/            # Terraform for AWS EKS
 │
-├── kubernetes/                # ☸️ Kubernetes manifests
+├── kubernetes/                # ☸️ Kubernetes manifests (cloud-agnostic)
 │   ├── training-job-qlora-optimized.yaml   # QLoRA training
 │   ├── training-job-mistral-7b.yaml        # Mistral training
 │   ├── training-job-dora.yaml              # DoRA training

@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"device-plugin","Source":"../modules/device-plugin","Dir":"../modules/device-plugin"},{"Key":"gpu-operator","Source":"../modules/gpu-operator","Dir":"../modules/gpu-operator"},{"Key":"network-operator","Source":"../modules/network-operator","Dir":"../modules/network-operator"}]}

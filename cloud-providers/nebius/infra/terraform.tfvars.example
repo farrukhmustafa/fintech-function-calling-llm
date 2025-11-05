@@ -1,0 +1,119 @@
+# Nebius Terraform Variables Example
+# Copy this file to terraform.tfvars and fill in your values
+
+# ============================================================================
+# REQUIRED: Your Nebius Credentials
+# ============================================================================
+# Get these from Nebius console:
+# - Tenant ID: Organization settings → ID (format: tenant-xxxxx)
+# - Project ID: Current project → ID (format: project-xxxxx)
+# - Region: Usually eu-north1
+
+# These are set via environment variables - see environment.sh
+# tenant_id    = "tenant-xxxxx"
+# project_id   = "project-xxxxx"
+# region       = "eu-north1"
+
+# ============================================================================
+# REQUIRED: SSH Access
+# ============================================================================
+# Add your SSH public key for node access
+# Generate with: ssh-keygen -t rsa -b 4096
+ssh_public_key = {
+  key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC... your-email@example.com"
+}
+
+ssh_user_name = "ubuntu"
+
+# ============================================================================
+# Node Configuration
+# ============================================================================
+
+# CPU nodes (for system workloads like MLflow, PostgreSQL)
+cpu_nodes_count = 1
+cpu_nodes_preset = "4vcpu-16gb"
+cpu_nodes_platform = "cpu-d3"
+cpu_nodes_preemptible = false
+
+# GPU nodes (for training and inference)
+gpu_nodes_count_per_group = 1  # 1x H100 for demo
+gpu_nodes_preset = "1gpu-16vcpu-200gb"  # H100 80GB
+gpu_nodes_platform = "gpu-h100-sxm"
+gpu_nodes_preemptible = false
+
+# GPU cluster (only needed for multi-GPU setups)
+enable_gpu_cluster = false  # Set to true if using multiple GPUs
+infiniband_fabric = "fabric-2"
+
+# ============================================================================
+# Storage Configuration
+# ============================================================================
+
+# Filestore for shared data (50GB for demo, increase for production)
+enable_filestore = true
+filestore_disk_size = 50 * 1024 * 1024 * 1024  # 50GB
+filestore_block_size = 4096
+
+# ============================================================================
+# Kubernetes Configuration
+# ============================================================================
+
+# Kubernetes version
+k8s_version = "1.28"
+
+# Control plane
+etcd_cluster_size = 1  # Use 3 for production HA
+
+# Network
+enable_egress_gateway = false  # Set to true if you need egress filtering
+
+# ============================================================================
+# Optional Features
+# ============================================================================
+
+# IAM Service Account (requires additional permissions)
+enable_k8s_node_group_sa = false
+
+# Monitoring and Logging
+enable_prometheus = true
+enable_loki = true
+
+# KubeRay for distributed training
+enable_kuberay = false
+
+# ============================================================================
+# Advanced GPU Settings (usually don't need to change)
+# ============================================================================
+
+# GPU health checker
+gpu_health_checker = true
+
+# MIG (Multi-Instance GPU) - not needed for single H100
+mig_strategy = "none"
+
+# GPU driver image
+gpu_nodes_driverfull_image = ""  # Leave empty to use default
+
+# ============================================================================
+# Optional: Custom Network
+# ============================================================================
+# If you have an existing VPC subnet, specify it here
+# Otherwise, leave empty to create a new one
+# subnet_id = ""
+
+# ============================================================================
+# Example Production Configuration
+# ============================================================================
+# For production with multiple GPUs and HA:
+#
+# cpu_nodes_count = 3
+# gpu_nodes_count_per_group = 4
+# enable_gpu_cluster = true
+# etcd_cluster_size = 3
+# enable_filestore = true
+# filestore_disk_size = 500 * 1024 * 1024 * 1024  # 500GB
+# enable_prometheus = true
+# enable_loki = true
+# enable_kuberay = true
+# gpu_health_checker = true
+
