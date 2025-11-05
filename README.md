@@ -1,6 +1,6 @@
-# Nebius AI Cloud - LLM Fine-Tuning Platform
+# Financial AI Agent - Function Calling LLM Platform
 
-**Production-ready infrastructure and automation for fine-tuning large language models on Nebius AI Cloud.**
+**Production-ready infrastructure for fine-tuning and deploying LLMs for financial workflow automation.**
 
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&logoColor=white)](https://www.terraform.io/)
@@ -9,15 +9,21 @@
 
 ---
 
-## 🎯 What This Does
+## 🎯 Use Case: FinTech Workflow Automation
 
-Complete end-to-end platform for:
+**Problem**: FinTech startups need AI agents that can execute precise function calls to internal APIs for:
+- Fraud detection workflows
+- Transaction processing automation
+- Risk assessment pipelines
+- Customer service operations
+
+**Solution**: Complete end-to-end platform for:
 - **Fine-tuning** LLMs on function calling tasks (ToolACE dataset)
-- **Evaluating** model accuracy on BFCL benchmark
-- **Deploying** optimized inference with vLLM
-- **Benchmarking** performance (TTFT, latency, throughput)
+- **Evaluating** model accuracy on industry-standard BFCL benchmark
+- **Deploying** production-ready inference with vLLM optimization
+- **Benchmarking** performance for 16-32 concurrent requests
 
-**Result**: Production-ready LLM fine-tuning pipeline achieving **95-98% accuracy** on function calling tasks.
+**Result**: Achieve **95-98% accuracy** on function calling tasks with optimized inference for financial workloads.
 
 ---
 
@@ -81,7 +87,7 @@ See **[documentation/2_MODEL_TRAINING_EVALUATION.md](documentation/2_MODEL_TRAIN
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Nebius AI Cloud                          │
+│              Cloud Infrastructure (GPU-enabled)             │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │
@@ -94,7 +100,7 @@ See **[documentation/2_MODEL_TRAINING_EVALUATION.md](documentation/2_MODEL_TRAIN
 │                                                             │
 │  ┌──────────────────────────────────────────────────────┐ │
 │  │              Shared Filestore (50GB)                 │ │
-│  │  • Training datasets                                 │ │
+│  │  • Training datasets (ToolACE)                       │ │
 │  │  • Model checkpoints                                 │ │
 │  │  • MLflow artifacts                                  │ │
 │  └──────────────────────────────────────────────────────┘ │
@@ -189,14 +195,14 @@ nebius/
 
 | Category | Technology | Purpose |
 |----------|-----------|---------|
-| **Cloud** | Nebius AI Cloud | H100 GPU infrastructure |
+| **Cloud** | GPU-enabled K8s | H100 GPU infrastructure |
 | **Orchestration** | Kubernetes 1.28+ | Container orchestration |
 | **IaC** | Terraform | Infrastructure deployment |
 | **Training** | Axolotl | LLM fine-tuning framework |
 | **Inference** | vLLM | Optimized LLM serving |
 | **Tracking** | MLflow | Experiment management |
 | **Database** | PostgreSQL | MLflow backend |
-| **Dataset** | ToolACE | Function calling training data |
+| **Dataset** | ToolACE | Financial API function calling |
 | **Benchmark** | BFCL | Function calling evaluation |
 
 ---
@@ -246,12 +252,12 @@ This platform is ideal for:
 - **Terraform**: 1.5 or higher
 - **kubectl**: Latest version
 - **Python**: 3.9+ with pip
-- **Nebius CLI**: For authentication
+- **Cloud CLI**: For cloud provider authentication
 
-### Nebius Cloud
-- **Account**: Active Nebius AI Cloud account
+### Cloud Infrastructure
+- **Account**: GPU-enabled cloud provider account (H100 support)
 - **Quota**: 1x H100 GPU node minimum
-- **Storage**: 50-100GB filestore
+- **Storage**: 50-100GB shared storage
 - **Network**: VPC with subnet
 
 ---
@@ -418,13 +424,12 @@ This is a production deployment package. For modifications:
 
 ## 📄 License
 
-This project is provided as-is for use with Nebius AI Cloud.
+This project is provided as-is for educational and demonstration purposes.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Nebius AI Cloud** - Infrastructure platform
 - **Axolotl** - Fine-tuning framework
 - **vLLM** - Inference optimization
 - **Team-ACE** - ToolACE dataset
@@ -436,8 +441,7 @@ This project is provided as-is for use with Nebius AI Cloud.
 
 - **Documentation**: See `documentation/` folder
 - **Issues**: Check `docs/TROUBLESHOOTING_GUIDE.md`
-- **Nebius Support**: https://docs.nebius.com/
-- **Community**: Nebius AI Slack/Discord
+- **Cloud Provider Docs**: Refer to your cloud provider's documentation
 
 ---
 
@@ -447,7 +451,7 @@ This project is provided as-is for use with Nebius AI Cloud.
 
 <div align="center">
 
-**Built with ❤️ for Nebius AI Cloud**
+**Built for Financial AI Automation**
 
 [Documentation](documentation/) • [Infrastructure](infra/) • [Scripts](scripts/) • [Results](results/)
 
