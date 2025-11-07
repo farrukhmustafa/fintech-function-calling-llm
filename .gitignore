@@ -1,24 +1,24 @@
 # Terraform
-infra/.terraform/
-infra/.terraform.lock.hcl
-infra/*.tfstate
-infra/*.tfstate.*
-infra/*.tfplan
-infra/crash.log
-infra/crash.*.log
-infra/*.tfvars.json
-infra/override.tf
-infra/override.tf.json
-infra/*_override.tf
-infra/*_override.tf.json
-infra/.terraformrc
-infra/terraform.rc
+**/.terraform/
+**/.terraform.lock.hcl
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfplan
+**/crash.log
+**/crash.*.log
+**/*.tfvars.json
+**/override.tf
+**/override.tf.json
+**/*_override.tf
+**/*_override.tf.json
+**/.terraformrc
+**/terraform.rc
 
 # Terraform variables (contains sensitive data)
-infra/terraform.tfvars
+**/terraform.tfvars
 
 # Environment files (contains tokens and credentials)
-infra/environment.sh
+**/environment.sh
 .env
 .env.*
 
